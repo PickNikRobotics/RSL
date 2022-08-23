@@ -15,17 +15,17 @@ namespace rsl {
 auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
 
 template <typename RealType>
-auto uniform_real(RealType lower, RealType upper) -> RealType {
+auto uniform_real(RealType lower, RealType upper) {
   static_assert(std::is_floating_point<RealType>::value);
   assert(lower < upper);
-  return std::uniform_real_distribution<RealType>{lower, upper}(rng());
+  return std::uniform_real_distribution(lower, upper)(rng());
 }
 
 template <typename IntType>
-auto uniform_int(IntType lower, IntType upper) -> IntType {
+auto uniform_int(IntType lower, IntType upper) {
   static_assert(std::is_integral<IntType>::value);
   assert(lower <= upper);
-  return std::uniform_int_distribution<IntType>{lower, upper}(rng());
+  return std::uniform_int_distribution(lower, upper)(rng());
 }
 
 }  // namespace rsl
