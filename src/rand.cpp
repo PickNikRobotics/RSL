@@ -28,11 +28,11 @@
 
 #include <rsl/rand.hpp>
 
-#include <algorithm>   // for std::generate_n
-#include <array>       // for std::array, std::data,
-#include <functional>  // for std::ref
-#include <random>      // for std::mt19937, random_device, seed_seq
-#include <stdexcept>   // for std::runtime_error
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <random>
+#include <stdexcept>
 
 namespace rsl {
 
