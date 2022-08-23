@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <random>
+#include <type_traits>
 
 namespace rsl {
 
@@ -15,12 +16,14 @@ auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
 
 template <typename RealType>
 auto uniform_real(RealType lower, RealType upper) -> RealType {
+  static_assert(std::is_floating_point<RealType>::value);
   assert(lower < upper);
   return std::uniform_real_distribution<RealType>{lower, upper}(rng());
 }
 
 template <typename IntType>
 auto uniform_int(IntType lower, IntType upper) -> IntType {
+  static_assert(std::is_integral<IntType>::value);
   assert(lower <= upper);
   return std::uniform_int_distribution<IntType>{lower, upper}(rng());
 }
