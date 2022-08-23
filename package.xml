@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>thread_rand</name>
+  <version>0.0.0</version>
+  <description>Per-thread Random generator functions for ROS based on stl</description>
+  <author email="maybe@tylerjw.dev">Tyler Weaver</author>
+  <author email="sebastian.jahr@picknik.ai">Sebastian Jahr</author>
+  <maintainer email="maybe@tylerjw.dev">Tyler Weaver</maintainer>
+  <maintainer email="sebastian.jahr@picknik.ai">Sebastian Jahr</maintainer>
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
