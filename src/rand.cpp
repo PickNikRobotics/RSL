@@ -26,7 +26,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "rsl/rand.hpp"
+#include <rsl/rand.hpp>
 
 #include <algorithm>   // for std::generate_n
 #include <array>       // for std::array, std::data,
