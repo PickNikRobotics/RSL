@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <random>
 
 namespace rsl {
@@ -14,11 +15,13 @@ auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
 
 template <typename T>
 auto uniform_real(T lower, T upper) -> T {
+  assert(lower < upper);
   return std::uniform_real_distribution<T>{lower, upper}(rng());
 }
 
 template <typename T>
 auto uniform_int(T lower, T upper) -> T {
+  assert(lower <= upper);
   return std::uniform_int_distribution<T>{lower, upper}(rng());
 }
 
