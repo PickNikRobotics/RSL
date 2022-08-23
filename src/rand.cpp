@@ -26,7 +26,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "thread_rand/thread_rand.hpp"
+#include "rsl/rand.hpp"
 
 #include <algorithm>   // for std::generate_n
 #include <array>       // for std::array, std::data,
@@ -34,7 +34,7 @@
 #include <random>      // for std::mt19937, random_device, seed_seq
 #include <stdexcept>   // for std::runtime_error
 
-namespace thread_rand {
+namespace rsl {
 
 auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
   thread_local bool first = false;
@@ -56,4 +56,4 @@ auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
   return generator;
 }
 
-}  // namespace thread_rand
+}  // namespace rsl

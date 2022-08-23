@@ -30,7 +30,7 @@
 
 #include <random>
 
-namespace thread_rand {
+namespace rsl {
 
 // The first time this function is called it creates a thread_local random
 // number generator. If a seed sequence is provided on that first call it is
@@ -50,4 +50,4 @@ auto uniform_int(T lower, T upper) -> T {
   return std::uniform_int_distribution<T>{lower, upper}(rng());
 }
 
-}  // namespace thread_rand
+}  // namespace rsl
