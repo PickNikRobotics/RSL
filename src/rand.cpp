@@ -37,9 +37,9 @@
 namespace rsl {
 
 auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
-  thread_local bool first = false;
+  thread_local bool first = true;
   thread_local std::mt19937 generator = [&seed_sequence]() {
-    first = true;
+    first = false;
     if (seed_sequence.size() > 0) {
       return std::mt19937(seed_sequence);
     }
