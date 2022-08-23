@@ -13,16 +13,16 @@ namespace rsl {
 // The returned value is a reference to a thread_local static generator.
 auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
 
-template <typename T>
-auto uniform_real(T lower, T upper) -> T {
+template <typename RealType>
+auto uniform_real(RealType lower, RealType upper) -> RealType {
   assert(lower < upper);
-  return std::uniform_real_distribution<T>{lower, upper}(rng());
+  return std::uniform_real_distribution<RealType>{lower, upper}(rng());
 }
 
-template <typename T>
-auto uniform_int(T lower, T upper) -> T {
+template <typename IntType>
+auto uniform_int(IntType lower, IntType upper) -> IntType {
   assert(lower <= upper);
-  return std::uniform_int_distribution<T>{lower, upper}(rng());
+  return std::uniform_int_distribution<IntType>{lower, upper}(rng());
 }
 
 }  // namespace rsl
