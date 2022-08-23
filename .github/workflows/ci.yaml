@@ -21,7 +21,8 @@ jobs:
             ROS_REPO: main
           - ROS_DISTRO: humble
             ROS_REPO: main
-
+    env:
+      ADDITIONAL_DEBS: git
     name: ${{ matrix.env.ROS_DISTRO }}-${{ matrix.env.ROS_REPO }}
     runs-on: ubuntu-latest
     steps:
