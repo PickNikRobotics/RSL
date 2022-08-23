@@ -11,6 +11,10 @@ target_include_directories(rsl PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+set_property(
+  TARGET rsl
+  PROPERTY POSITION_INDEPENDENT_CODE ON
+)
 
 install(
   DIRECTORY include/
