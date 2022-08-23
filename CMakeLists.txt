@@ -25,6 +25,9 @@ install(
   RUNTIME DESTINATION bin
 )
 
+enable_testing()
+add_subdirectory(tests)
+
 ament_export_include_directories(include)
 ament_export_libraries(rsl)
 ament_export_targets(export_rsl)
