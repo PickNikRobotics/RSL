@@ -3,7 +3,7 @@
 <package format="3">
   <name>rsl</name>
   <version>0.0.0</version>
-  <description>ROS support library</description>
+  <description>ROS Support Library</description>
   <author email="maybe@tylerjw.dev">Tyler Weaver</author>
   <author email="sebastian.jahr@picknik.ai">Sebastian Jahr</author>
   <author email="chrisjthrasher@gmail.com">Chris Thrasher</author>
