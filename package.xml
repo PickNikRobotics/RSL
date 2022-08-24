@@ -6,8 +6,10 @@
   <description>ROS support library</description>
   <author email="maybe@tylerjw.dev">Tyler Weaver</author>
   <author email="sebastian.jahr@picknik.ai">Sebastian Jahr</author>
+  <author email="chrisjthrasher@gmail.com">Chris Thrasher</author>
   <maintainer email="maybe@tylerjw.dev">Tyler Weaver</maintainer>
   <maintainer email="sebastian.jahr@picknik.ai">Sebastian Jahr</maintainer>
+  <maintainer email="chrisjthrasher@gmail.com">Chris Thrasher</maintainer>
   <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
