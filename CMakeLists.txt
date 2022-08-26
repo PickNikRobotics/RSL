@@ -3,6 +3,10 @@ project(rsl VERSION 0.0.0 LANGUAGES CXX)
 
 find_package(ament_cmake REQUIRED)
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+endif()
+
 add_library(rsl
     src/rand.cpp
 )
