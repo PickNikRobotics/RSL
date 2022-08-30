@@ -41,6 +41,25 @@ repos:
         files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|proto|vert)$
         args: ['-fallback-style=none', '-i']
 
+  - repo: local
+    hooks:
+      - id: generate-compilation-database
+        name: generate compilation database
+        description: Generate compile_commands.json
+        entry: cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        pass_filenames: false
+        language: system
+
+  - repo: local
+    hooks:
+      - id: clang-tidy
+        name: clang-tidy
+        description: Analyze files with ClangTidy 14.
+        entry: clang-tidy-14
+        language: system
+        files: \.cpp$
+        args: ['-p', 'build']
+
   - repo: https://github.com/codespell-project/codespell
     rev: v2.0.0
     hooks:
