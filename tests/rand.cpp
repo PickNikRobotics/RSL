@@ -1,4 +1,3 @@
-
 #include <rsl/rand.hpp>
 
 #include <catch2/catch_all.hpp>
