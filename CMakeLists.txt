@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(rsl VERSION 0.0.0 LANGUAGES CXX)
 
+set(CMAKE_CXX_EXTENSIONS ON)
+
 find_package(ament_cmake REQUIRED)
 find_package(tl_expected REQUIRED)
 
