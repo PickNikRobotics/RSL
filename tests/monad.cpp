@@ -99,3 +99,47 @@ TEST_CASE("rsl::mbind") {
         CHECK(compose_result == chain_result);
     }
 }
+
+TEST_CASE("rsl::has_error") {
+    SECTION("Error") {
+        // GIVEN expected type containing error
+        auto const exp = tl::expected<int, double>(tl::make_unexpected(0.1));
+
+        // WHEN calling rsl::has_value and tl::expected::has_value
+        // THEN we expect rsl::has_value is true, and tl::expected::has_value is false
+        CHECK(rsl::has_error(exp));
+        CHECK_FALSE(exp.has_value());
+    }
+
+    SECTION("Value") {
+        // GIVEN expected type containing value
+        auto const exp = tl::expected<int, double>(1);
+
+        // WHEN calling rsl::has_value and tl::expected::has_value
+        // THEN we expect rsl::has_value is false, and tl::expected::has_value is true
+        CHECK_FALSE(rsl::has_error(exp));
+        CHECK(exp.has_value());
+    }
+}
+
+TEST_CASE("rsl::has_value") {
+    SECTION("Error") {
+        // GIVEN expected type containing error
+        auto const exp = tl::expected<int, double>(tl::make_unexpected(0.1));
+
+        // WHEN calling rsl::has_value and tl::expected::has_value
+        // THEN we expect has_error is false, and has_value is false
+        CHECK_FALSE(rsl::has_value(exp));
+        CHECK_FALSE(exp.has_value());
+    }
+
+    SECTION("Value") {
+        // GIVEN expected type containing value
+        auto const exp = tl::expected<int, double>(1);
+
+        // WHEN calling rsl::has_value and tl::expected::has_value
+        // THEN we expect has_error is true, and has_value is true
+        CHECK(rsl::has_value(exp));
+        CHECK(exp.has_value());
+    }
+}

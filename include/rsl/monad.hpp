@@ -95,6 +95,30 @@ template <typename T, typename G, typename... Types>
     return mcompose(exp, vars...);
 }
 
+/**
+ * @brief           Test if expected type is Error
+ *
+ * @param[in] exp   The input tl::expected<T,E> value
+ *
+ * @return          True if expected paraemter is Error
+ */
+template <typename T, typename E>
+[[nodiscard]] constexpr auto has_error(tl::expected<T, E> const& exp) {
+    return !exp.has_value();
+}
+
+/**
+ * @brief           Test if expected type is Value
+ *
+ * @param[in] exp   The input tl::expected<T,E> value
+ *
+ * @return          True if expected paraemter is Value
+ */
+template <typename T, typename E>
+[[nodiscard]] constexpr auto has_value(tl::expected<T, E> const& exp) {
+    return exp.has_value();
+}
+
 }  // namespace rsl
 
 /**
