@@ -6,32 +6,6 @@ on:
   push:
 
 jobs:
-  default:
-    strategy:
-      fail-fast: false
-      matrix:
-        env:
-          - ROS_DISTRO: rolling
-            ROS_REPO: testing
-          - ROS_DISTRO: humble
-            ROS_REPO: testing
-          - ROS_DISTRO: rolling
-            ROS_REPO: main
-          - ROS_DISTRO: humble
-            ROS_REPO: main
-
-    env:
-      UPSTREAM_WORKSPACE: upstream.repos
-
-    name: ${{ matrix.env.ROS_DISTRO }}-${{ matrix.env.ROS_REPO }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - id: ici
-        name: Run industrial_ci
-        uses: ros-industrial/industrial_ci@master
-        env: ${{ matrix.env }}
-
   build-and-test:
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:ci
