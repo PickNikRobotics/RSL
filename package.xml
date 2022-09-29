@@ -18,6 +18,8 @@
   <depend>eigen</depend>
   <depend>tl_expected</depend>
 
+  <test_depend>range-v3</test_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

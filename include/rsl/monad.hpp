@@ -10,7 +10,7 @@ namespace rsl {
  * @brief      Monad optional bind
  *
  * @param[in]  opt   The input optional
- * @param[in]  fn    The function
+ * @param[in]  fn    The function, must return a optional
  *
  * @tparam     T     The input type
  * @tparam     Fn    The function
@@ -18,7 +18,10 @@ namespace rsl {
  * @return     Return type of fn
  */
 template <typename T, typename Fn>
-[[nodiscard]] constexpr auto mbind(std::optional<T> const& opt, Fn fn) {
+[[nodiscard]] constexpr auto mbind(std::optional<T> const& opt, Fn fn)
+    -> std::invoke_result_t<Fn, T> {
+    static_assert(std::is_convertible_v<std::nullopt_t, std::invoke_result_t<Fn, T>>,
+                  "Fn must return a std::optional");
     if (opt) return fn(opt.value());
     return std::invoke_result_t<Fn, T>{std::nullopt};
 }
@@ -36,7 +39,8 @@ template <typename T, typename Fn>
  * @return     The return type of the function
  */
 template <typename T, typename E, typename Fn>
-[[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp, Fn fn) {
+[[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp, Fn fn)
+    -> std::invoke_result_t<Fn, T> {
     if (exp) return fn(exp.value());
     return tl::make_unexpected(exp.error());
 }
@@ -117,6 +121,13 @@ template <typename T, typename E>
     return exp.has_value();
 }
 
+template <typename>
+constexpr bool is_optional_impl = false;
+template <typename T>
+constexpr bool is_optional_impl<std::optional<T>> = true;
+template <typename T>
+constexpr bool is_optional = is_optional_impl<std::remove_cv_t<std::remove_reference_t<T>>>;
+
 }  // namespace rsl
 
 /**
@@ -130,8 +141,10 @@ template <typename T, typename E>
  *
  * @return     Return type of f
  */
-template <typename T, typename Fn>
-[[nodiscard]] constexpr auto operator|(std::optional<T> const& opt, Fn fn) {
+template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<T>>,
+          typename = std::enable_if_t<std::is_invocable_v<
+              Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>>>
+[[nodiscard]] constexpr auto operator|(T&& opt, Fn&& fn) {
     return rsl::mbind(opt, fn);
 }
 
@@ -150,4 +163,21 @@ template <typename T, typename Fn>
 template <typename T, typename E, typename Fn>
 [[nodiscard]] constexpr auto operator|(tl::expected<T, E> const& exp, Fn fn) {
     return rsl::mbind(exp, fn);
+}
+
+/**
+ * @brief      Overload of the | operator for unary functions
+ *
+ * @param[in]  val   The input value
+ * @param[in]  fn    The function to apply on val
+ *
+ * @tparam     T     The type for the input
+ * @tparam     Fn    The function
+ *
+ * @return     Return the result of invoking the function on val
+ */
+template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional<T>>>
+[[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) ->
+    typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
+    return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
 }

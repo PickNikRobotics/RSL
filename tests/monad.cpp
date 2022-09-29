@@ -1,8 +1,11 @@
 #include <rsl/monad.hpp>
 
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <range/v3/all.hpp>
 
 #include <cmath>
+#include <string>
 
 static constexpr auto maybe_non_zero(int in) {
     return (in != 0) ? std::make_optional(in) : std::nullopt;
@@ -16,6 +19,20 @@ static auto unsafe_divide_4_by(double val) {
     if (val == 0) throw std::runtime_error("divide by zero");
     return 4.0 / val;
 }
+
+template <typename T>
+using Result = tl::expected<T, std::string>;
+
+static Result<double> divide(double x, double y) {
+    if (y == 0) return tl::make_unexpected("divide by 0");
+    return x / y;
+}
+
+static Result<double> multiply(double x, double y) { return x * y; }
+
+static Result<double> divide_3(double x) { return divide(3, x); }
+
+static Result<double> multiply_3(double x) { return multiply(3, x); }
 
 TEST_CASE("rsl::mbind") {
     SECTION("Optional value") {
@@ -77,7 +94,8 @@ TEST_CASE("rsl::mbind") {
         constexpr auto opt = std::make_optional(-4.0);
 
         // WHEN we compose them together and then bind them with an input
-        auto const compose_result = opt | rsl::mcompose(maybe_lt_3_round, maybe_non_zero);
+        auto const compose_fn = rsl::mcompose(maybe_lt_3_round, maybe_non_zero);
+        auto const compose_result = opt | compose_fn;
 
         // THEN we expect the result to be the same as if we chained the calls together
         auto const chain_result = opt | maybe_lt_3_round | maybe_non_zero;
@@ -97,6 +115,47 @@ TEST_CASE("rsl::mbind") {
         auto const chain_result = opt | maybe_lt_3_round | maybe_non_zero | maybe_non_zero;
 
         CHECK(compose_result == chain_result);
+    }
+
+    SECTION("Pass unexpected value through bind") {
+        Result<double> const input = tl::make_unexpected("foo");
+        auto const result = rsl::mbind(input, multiply_3);
+        REQUIRE(rsl::has_error(result));
+        CHECK(result.error() == "foo");
+    }
+
+    SECTION("Divide by 0 produces error with valid input") {
+        auto const input = Result<double>{0.0};
+        auto const result = rsl::mbind(input, divide_3);
+        REQUIRE(rsl::has_error(result));
+        CHECK(result.error() == "divide by 0");
+    }
+
+    SECTION("operator| divide by 0") {
+        auto const input = Result<double>{0.0};
+        auto const result = input | divide_3;
+        REQUIRE(rsl::has_error(result));
+        CHECK(result.error() == "divide by 0");
+    }
+
+    SECTION("operator| valid result") {
+        CHECK((Result<double>{5.0} | divide_3).value() == Catch::Approx(3 / 5.));
+    }
+
+    SECTION("operator| two operations") {
+        CHECK((Result<double>{5.0} | divide_3 | multiply_3).value() == Catch::Approx(3 * (3 / 5.)));
+    }
+
+    SECTION("operator| different types") {
+        auto const result = Result<double>{5.0} | [](double in) -> Result<int> {
+            auto const out = static_cast<int>(in);
+            auto const check = static_cast<double>(out);
+            if (check != in) {
+                return tl::make_unexpected("no worky casty");
+            }
+            return out;
+        };
+        CHECK(result.value() == 5);
     }
 }
 
@@ -141,5 +200,29 @@ TEST_CASE("rsl::has_value") {
         // THEN we expect has_error is true, and has_value is true
         CHECK(rsl::has_value(exp));
         CHECK(exp.has_value());
+    }
+}
+
+TEST_CASE("operator|") {
+    auto const I = [](auto x) { return x; };
+    auto const K = [](auto x) { return [=](auto) { return x; }; };
+    auto const mul = [](auto x, auto y) { return x * y; };
+    auto const bind1 = [](auto fn, auto x) { return [=](auto y) { return fn(x, y); }; };
+    auto const three = [](auto) { return int{3}; };
+    auto const wrap = [](auto x) { return Result<decltype(x)>{x}; };
+
+    CHECK((int{5} | I) == 5);
+    CHECK((int{5} | I | K(3)) == 3);
+    CHECK(((int{7} | I | K)(3)) == 7);
+    CHECK((int{4} | bind1(mul, 3)) == 12);
+    CHECK((double{5} | three) == 3);
+    CHECK((double{5} | wrap).value() == Catch::Approx(5));
+    CHECK((double{5} | wrap | multiply_3).value() == Catch::Approx(5 * 3));
+
+    SECTION("range-v3 operator| still works") {
+        auto v = {20, 10, 15};
+        auto r_inv = v | ranges::views::transform([](int x) { return 1.0 / x; });
+        auto val = 1.0 / ranges::accumulate(r_inv, 0.0);
+        CHECK(val == Catch::Approx(4.61538));
     }
 }
