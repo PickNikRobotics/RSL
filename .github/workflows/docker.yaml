@@ -7,6 +7,11 @@ on:
 
 jobs:
   ci-docker:
+    strategy:
+      matrix:
+        env:
+          - {ROS_DISTRO: rolling}
+          - {ROS_DISTRO: humble}
     runs-on: ubuntu-22.04
     steps:
       - name: Check out the repo
@@ -26,5 +31,6 @@ jobs:
           context: .
           file: .devcontainer/Dockerfile
           push: true
-          target: ci
-          tags: ghcr.io/picknikrobotics/rsl:ci
+          target: upstream
+          build-args: ROS_DISTRO=${{ matrix.env.ROS_DISTRO }}
+          tags: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.env.ROS_DISTRO }}

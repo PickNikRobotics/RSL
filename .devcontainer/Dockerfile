@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.2
 ARG ROS_DISTRO="rolling"
-FROM ros:${ROS_DISTRO}-ros-base AS system
+FROM ros:${ROS_DISTRO}-ros-base AS upstream
 # Restate for later use
 ARG ROS_DISTRO
 RUN rm /ros_entrypoint.sh
@@ -41,67 +41,11 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
 RUN mkdir /root/.ssh \
     && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-FROM system AS ci
-
-# Make the CI image smaller (no debug symbols)
-# build source dependencies
-WORKDIR /opt/upstream
-COPY upstream.repos .
-RUN --mount=type=cache,target=/var/cache/apt,id=apt --mount=type=ssh \
-    mkdir src \
-    && vcs import src < upstream.repos \
-    && . /opt/ros/$ROS_DISTRO/setup.sh \
-    && rosdep update && apt-get update \
-    && rosdep install -q -y \
-    --from-paths src \
-    --ignore-src \
-    --rosdistro ${ROS_DISTRO} \
-    && rm -rf /var/lib/apt/lists/*
-RUN --mount=type=cache,target=/root/.ccache,id=ccache \
-    . /opt/ros/$ROS_DISTRO/setup.sh \
-    && colcon build --mixin ccache release lld \
-    && rm -rf build src log upstream.repos \
-    && ccache -s
-
 # install dependencies of this project
 WORKDIR /root/ws
 COPY ../ ./src/rsl
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
-    . /opt/upstream/install/setup.sh \
-    && rosdep update && apt-get update \
-    && rosdep install -q -y \
-    --from-paths src \
-    --ignore-src \
-    --rosdistro ${ROS_DISTRO} \
-    && rm -rf /var/lib/apt/lists/*
-RUN rm -rf /root/ws
-
-FROM system AS upstream
-
-# Build the development upstream with debug symbols
-# build source dependencies
-WORKDIR /opt/upstream
-COPY upstream.repos .
-RUN --mount=type=cache,target=/var/cache/apt,id=apt --mount=type=ssh \
-    mkdir src \
-    && vcs import src < upstream.repos \
-    && . /opt/ros/$ROS_DISTRO/setup.sh \
-    && rosdep update && apt-get update \
-    && rosdep install -q -y \
-    --from-paths src \
-    --ignore-src \
-    --rosdistro ${ROS_DISTRO} \
-    && rm -rf /var/lib/apt/lists/*
-RUN --mount=type=cache,target=/root/.ccache,id=ccache \
-    . /opt/ros/$ROS_DISTRO/setup.sh \
-    && colcon build --mixin ccache rel-with-deb-info compile-commands lld \
-    && ccache -s
-
-# install dependencies of this project
-WORKDIR /root/ws
-COPY ../ ./src/rsl
-RUN --mount=type=cache,target=/var/cache/apt,id=apt \
-    . /opt/upstream/install/setup.sh \
+    . /opt/ros/${ROS_DISTRO}/setup.sh \
     && rosdep update && apt-get update \
     && rosdep install -q -y \
     --from-paths src \
@@ -117,12 +61,11 @@ ARG UID=1000
 ARG GID=$UID
 
 # Setup user home directory
-COPY ./.devcontainer/.profile /home/dev/.profile
 RUN groupadd --gid $GID $USER \
     && useradd --uid $GID --gid $UID -m $USER --groups sudo \
     && echo $USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER \
-    && mkdir -p /home/${USER}/ws \
+    && echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/${USER}/.profile \
     && touch /home/${USER}/.bashrc \
     && chown -R ${GID}:${UID} /home/${USER}
 
