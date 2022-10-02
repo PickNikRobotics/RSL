@@ -4,12 +4,17 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0'
+  push:
+    paths:
+      - '.devcontainer/Dockerfile'
+      - '.github/workflows/docker.yaml'
+      - 'package.xml'
 
 jobs:
-  upstream-docker:
+  upstream:
     strategy:
       matrix:
-        ROS_DISTRO: [humble, rolling]
+        ros_distro: [humble, rolling]
     runs-on: ubuntu-22.04
     steps:
       - name: Check out the repo
@@ -30,5 +35,7 @@ jobs:
           file: .devcontainer/Dockerfile
           push: true
           target: upstream
-          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-          tags: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
+          build-args: ROS_DISTRO=${{ matrix.ros_distro }}
+          tags: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ros_distro }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -18,11 +18,15 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     clang-format-14 \
     clang-tidy-14 \
     cmake \
+    curl \
     git \
+    lcov \
     lld \
     ninja-build \
     openssh-client \
     python3-colcon-common-extensions \
+    python3-colcon-coveragepy-result \
+    python3-colcon-lcov-result \
     python3-colcon-mixin \
     python3-pip \
     python3-pytest \
@@ -84,3 +88,8 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
 USER $USER
 ENV SHELL /bin/bash
 ENTRYPOINT []
+
+# Setup mixin
+WORKDIR /home/${USER}/ws
+RUN colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml \
+    && colcon mixin update default
