@@ -37,3 +37,17 @@ jobs:
       - name: Test
         working-directory: ./build/relwithdebinfo
         run: ctest . --rerun-failed --output-on-failure
+
+  ros-ci:
+    strategy:
+      matrix:
+        ROS_DISTRO: [humble, rolling]
+    runs-on: ubuntu-22.04
+    container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          package-name: rsl
+          target-ros2-distro: ${{ matrix.ROS_DISTRO }}
