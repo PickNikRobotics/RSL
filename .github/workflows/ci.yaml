@@ -7,8 +7,11 @@ on:
 
 jobs:
   build-and-test:
+    strategy:
+      matrix:
+        ROS_DISTRO: [humble, rolling]
     runs-on: ubuntu-22.04
-    container: ghcr.io/picknikrobotics/rsl:ci
+    container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
@@ -22,10 +25,9 @@ jobs:
           restore-keys: |
             ccache-${{ github.sha }}
             ccache
-      - name: Source ROS Workspaces
+      - name: Source ROS
         run: |
-          . /opt/ros/rolling/setup.sh
-          . /opt/upstream/install/setup.sh
+          . /opt/ros/${{ matrix.ROS_DISTRO }}/setup.sh
           echo "$(env)" >> $GITHUB_ENV
       - name: Configure
         run: cmake --preset relwithdebinfo

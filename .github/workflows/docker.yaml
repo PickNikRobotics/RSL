@@ -6,7 +6,10 @@ on:
     - cron: '0 0 * * 0'
 
 jobs:
-  ci-docker:
+  upstream-docker:
+    strategy:
+      matrix:
+        ROS_DISTRO: [humble, rolling]
     runs-on: ubuntu-22.04
     steps:
       - name: Check out the repo
@@ -26,5 +29,6 @@ jobs:
           context: .
           file: .devcontainer/Dockerfile
           push: true
-          target: ci
-          tags: ghcr.io/picknikrobotics/rsl:ci
+          target: upstream
+          build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+          tags: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
