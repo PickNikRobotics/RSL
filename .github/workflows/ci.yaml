@@ -3,7 +3,7 @@ name: CI
 on:
   workflow_dispatch:
   pull_request:
-  push:
+  # push:
 
 jobs:
   cmake:
@@ -48,6 +48,8 @@ jobs:
           - clang-libcxx
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -66,6 +68,9 @@ jobs:
           colcon-defaults: |
             {
               "build": {
-                "mixin": ["ccache lld ${{ matrix.mixin }}"]
+                "mixin": ["ccache", "lld", "${{ matrix.mixin }}"]
+              },
+              "test": {
+                  "event-handlers": ["console_direct+"]
               }
             }
