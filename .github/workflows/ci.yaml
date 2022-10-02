@@ -51,6 +51,14 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+      - name: Cache ccache
+        uses: pat-s/always-upload-cache@v3.0.1
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: |
+            ccache-${{ github.sha }}
+            ccache
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: rsl

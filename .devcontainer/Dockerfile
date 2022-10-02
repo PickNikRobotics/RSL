@@ -67,6 +67,7 @@ RUN groupadd --gid $GID $USER \
     && useradd --uid $GID --gid $UID -m $USER --groups sudo \
     && echo $USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER \
+    && mkdir /home/${USER}/ws \
     && echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/${USER}/.profile \
     && touch /home/${USER}/.bashrc \
     && chown -R ${GID}:${UID} /home/${USER}
@@ -86,3 +87,8 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
 USER $USER
 ENV SHELL /bin/bash
 ENTRYPOINT []
+
+# Setup mixin
+WORKDIR /home/${USER}/ws
+RUN colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml \
+    && colcon mixin update default
