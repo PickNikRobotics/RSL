@@ -14,7 +14,7 @@ on:
       - '.github/workflows/docker.yaml'
 
 jobs:
-  upstream-docker:
+  upstream:
     strategy:
       matrix:
         ROS_DISTRO: [humble, rolling]
