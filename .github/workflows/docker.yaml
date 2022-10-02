@@ -36,3 +36,5 @@ jobs:
           target: upstream
           build-args: ROS_DISTRO=${{ matrix.ROS_DISTRO }}
           tags: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
