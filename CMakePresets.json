@@ -51,6 +51,16 @@
                 "CMAKE_C_FLAGS": "-fsanitize=address",
                 "CMAKE_CXX_FLAGS": "-fsanitize=address"
             }
+        },
+        {
+            "name": "codecov",
+            "inherits": "debug",
+            "displayName": "Code coverage reporting",
+            "binaryDir": "${sourceDir}/build/codecov",
+            "cacheVariables": {
+                "CMAKE_C_FLAGS": "--coverage",
+                "CMAKE_CXX_FLAGS": "--coverage"
+            }
         }
     ]
 }
