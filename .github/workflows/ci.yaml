@@ -73,7 +73,10 @@ jobs:
                   "event-handlers": ["console_direct+"]
               }
             }
-      - uses: codecov/codecov-action@v1.2.1
-        if: ${{ matrix.mixin == 'coverage-gcc' && matrix.ROS_DISTRO == 'rolling' }}
+      - uses: codecov/codecov-action@v3
+        if: ${{ matrix.mixin == 'coverage-gcc' }}
         with:
           files: ros_ws/lcov/total_coverage.info
+          name: codecov-umbrella
+          flags: ${{ matrix.ROS_DISTRO }}
+          verbose: true
