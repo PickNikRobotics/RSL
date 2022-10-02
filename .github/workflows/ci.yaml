@@ -45,7 +45,6 @@ jobs:
         mixin:
           - coverage-gcc
           - asan-gcc
-          - clang-libcxx
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
     env:
