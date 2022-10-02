@@ -6,7 +6,7 @@ on:
   push:
 
 jobs:
-  build-and-test:
+  cmake:
     strategy:
       matrix:
         ROS_DISTRO: [humble, rolling]
@@ -38,7 +38,7 @@ jobs:
         working-directory: ./build/relwithdebinfo
         run: ctest . --rerun-failed --output-on-failure
 
-  ros-ci:
+  ros:
     strategy:
       matrix:
         ROS_DISTRO: [humble, rolling]

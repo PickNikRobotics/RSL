@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0'
+  push:
+    paths:
+      - '.devcontainer/Dockerfile'
+      - '.github/workflows/docker.yaml'
 
 jobs:
   upstream-docker:
