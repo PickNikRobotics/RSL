@@ -67,7 +67,8 @@ jobs:
           colcon-defaults: |
             {
               "build": {
-                "mixin": ["ccache", "lld", "debug", "compile-commands", "${{ matrix.mixin }}"]
+                "mixin": ["ccache", "lld", "debug", "compile-commands", "${{ matrix.mixin }}"],
+                "event-handlers": ["console_direct+"]
               },
               "test": {
                   "event-handlers": ["console_direct+"]

@@ -20,6 +20,7 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     cmake \
     curl \
     git \
+    lcov \
     lld \
     ninja-build \
     openssh-client \
