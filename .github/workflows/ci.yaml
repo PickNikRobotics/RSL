@@ -42,6 +42,10 @@ jobs:
     strategy:
       matrix:
         ROS_DISTRO: [humble, rolling]
+        mixin:
+          - coverage-gcc
+          - asan-gcc
+          - clang-libcxx
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
     steps:
@@ -51,3 +55,9 @@ jobs:
         with:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ROS_DISTRO }}
+          colcon-defaults: |
+            {
+              "build": {
+                "mixin": ["ccache lld ${{ matrix.mixin }}"]
+              }
+            }
