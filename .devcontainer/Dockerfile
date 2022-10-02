@@ -18,6 +18,7 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     clang-format-14 \
     clang-tidy-14 \
     cmake \
+    curl \
     git \
     lld \
     ninja-build \

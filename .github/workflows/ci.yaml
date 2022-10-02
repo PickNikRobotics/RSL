@@ -67,9 +67,13 @@ jobs:
           colcon-defaults: |
             {
               "build": {
-                "mixin": ["ccache", "lld", "${{ matrix.mixin }}"]
+                "mixin": ["ccache", "lld", "debug", "compile-commands", "${{ matrix.mixin }}"]
               },
               "test": {
                   "event-handlers": ["console_direct+"]
               }
             }
+      - uses: codecov/codecov-action@v1.2.1
+        if: ${{ matrix.mixin == 'coverage-gcc' && matrix.ROS_DISTRO == 'rolling' }}
+        with:
+          files: ros_ws/lcov/total_coverage.info
