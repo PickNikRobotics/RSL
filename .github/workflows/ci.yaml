@@ -72,6 +72,9 @@ jobs:
               },
               "test": {
                   "event-handlers": ["console_direct+"]
+              },
+              "lcov-result": {
+                "filter": ["*/tests/*"]
               }
             }
       - uses: codecov/codecov-action@v3
