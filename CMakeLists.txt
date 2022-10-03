@@ -21,6 +21,10 @@ target_include_directories(rsl PUBLIC
 )
 target_link_libraries(rsl PUBLIC tl_expected::tl_expected)
 
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
+
 install(
     DIRECTORY include/
     DESTINATION include
@@ -31,14 +35,9 @@ install(
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
 )
 
-ament_export_include_directories(include)
-ament_export_libraries(rsl)
-ament_export_targets(export_rsl)
-
-if(BUILD_TESTING)
-    add_subdirectory(tests)
-endif()
-
+ament_export_targets(export_rsl HAS_LIBRARY_TARGET)
+ament_export_dependencies(tl_expected)
 ament_package()
