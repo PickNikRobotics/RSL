@@ -18,7 +18,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Cache ccache
-        uses: pat-s/always-upload-cache@v3.0.1
+        uses: pat-s/always-upload-cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-${{ github.sha }}-${{ github.run_id }}
@@ -42,9 +42,7 @@ jobs:
     strategy:
       matrix:
         ROS_DISTRO: [humble, rolling]
-        mixin:
-          - coverage-gcc
-          - asan-gcc
+        mixin: [coverage-gcc, asan-gcc]
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ROS_DISTRO }}
     env:
@@ -53,7 +51,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
       - name: Cache ccache
-        uses: pat-s/always-upload-cache@v3.0.1
+        uses: pat-s/always-upload-cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-${{ github.sha }}-${{ github.run_id }}
@@ -65,22 +63,14 @@ jobs:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ROS_DISTRO }}
           colcon-defaults: |
-            {
-              "build": {
-                "mixin": ["ccache", "lld", "debug", "compile-commands", "${{ matrix.mixin }}"],
-                "event-handlers": ["console_direct+"]
-              },
-              "test": {
-                  "event-handlers": ["console_direct+"]
-              },
-              "lcov-result": {
-                "filter": ["*/tests/*"]
-              }
-            }
+            ---
+            build:
+              mixin: [ccache, lld, debug, compile-commands, ${{ matrix.mixin }}]
+            lcov-result:
+              filter: ["*/tests/*", "*/build/*"]
       - uses: codecov/codecov-action@v3
-        if: ${{ matrix.mixin == 'coverage-gcc' }}
+        if: ${{ matrix.mixin == 'coverage-gcc' && matrix.ROS_DISTRO == 'rolling' }}
         with:
           files: ros_ws/lcov/total_coverage.info
           name: codecov-umbrella
           flags: ${{ matrix.ROS_DISTRO }}
-          verbose: true
