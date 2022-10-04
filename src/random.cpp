@@ -24,4 +24,18 @@ auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
     return generator;
 }
 
+auto random_unit_quaternion() -> Eigen::Quaterniond {
+    // From "Uniform Random Rotations", Ken Shoemake, Graphics Gems III, pg. 124-132
+    auto const x0 = uniform_real(0., 1.);
+    auto const r1 = std::sqrt(1 - x0);
+    auto const r2 = std::sqrt(x0);
+    auto const t1 = uniform_real(0., 2 * M_PI);
+    auto const t2 = uniform_real(0., 2 * M_PI);
+    auto const x = r1 * std::sin(t1);
+    auto const y = r1 * std::cos(t1);
+    auto const z = r2 * std::sin(t2);
+    auto const w = r2 * std::cos(t2);
+    return Eigen::Quaterniond(w, x, y, z).normalized();
+}
+
 }  // namespace rsl

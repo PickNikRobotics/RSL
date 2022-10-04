@@ -4,6 +4,7 @@ project(rsl VERSION 0.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_EXTENSIONS ON)
 
 find_package(ament_cmake REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(tl_expected REQUIRED)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
@@ -19,7 +20,7 @@ target_include_directories(rsl PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(rsl PUBLIC tl_expected::tl_expected)
+target_link_libraries(rsl PUBLIC Eigen3::Eigen tl_expected::tl_expected)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
@@ -39,5 +40,5 @@ install(
 )
 
 ament_export_targets(export_rsl HAS_LIBRARY_TARGET)
-ament_export_dependencies(tl_expected)
+ament_export_dependencies(Eigen3 tl_expected)
 ament_package()
