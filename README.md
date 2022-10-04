@@ -1,27 +1,16 @@
-# RSL
+# ROS Support Library (RSL)
 
-ROS Support Library
-
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/PickNikRobotics/RSL/CI/main?label=CI)
 [![codecov](https://codecov.io/github/PickNikRobotics/RSL/branch/main/graph/badge.svg?token=t85cTyvsez)](https://codecov.io/github/PickNikRobotics/RSL)
+![GitHub](https://img.shields.io/github/license/PickNikRobotics/RSL)
 
-## Local development in devcontainer
+RSL is a collection of C++17 utilities for ROS projects.
 
-0. Install docker and add yourself to the docker group.
+## Killer Features
 
-```shell
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
-```
-
-1. Run these commands to create a directory to mount for ccache and another to mount for the ros directory containing log files.
-
-```bash
-mkdir -p ~/.local/.rsl/ccache
-mkdir -p ~/.local/.rsl/ros
-```
-
-2. Open project in VSCode and follow prompts to open project in devcontainer.
+* [monad.hpp](include/rsl/monad.hpp) - Functions and operators for monadic expressions
+* [no_discard.hpp](include/rsl/no_discard.hpp) - `[[nodiscard]]` for lambdas
+* [overload.hpp](include/rsl/overload.hpp) - Class template for easily visiting variants
+* [queue.hpp](include/rsl/queue.hpp) - Thread-safe queue
+* [random.hpp](include/rsl/random.hpp) - Modern C++ randomness made easy
+* [try.hpp](include/rsl/try.hpp) - Macro to emulatate absl::CONFIRM or operator? from Rust
