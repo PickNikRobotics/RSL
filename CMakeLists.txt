@@ -11,7 +11,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
 endif()
 
 add_library(rsl
-    src/rand.cpp
+    src/random.cpp
 )
 add_library(rsl::rsl ALIAS rsl)
 target_compile_features(rsl PUBLIC cxx_std_17)

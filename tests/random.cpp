@@ -1,4 +1,4 @@
-#include <rsl/rand.hpp>
+#include <rsl/random.hpp>
 
 #include <catch2/catch_test_macros.hpp>
 
