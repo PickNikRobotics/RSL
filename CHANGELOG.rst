@@ -2,6 +2,11 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.1 (2022-10-04)
+------------------
+* Fix CMake configuration warnings
+* Contributors: Chris Thrasher
+
 0.1.0 (2022-10-04)
 ------------------
 * monad.hpp - Functions and operators for monadic expressions
