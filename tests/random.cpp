@@ -1,5 +1,6 @@
 #include <rsl/random.hpp>
 
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include <thread>
@@ -41,4 +42,9 @@ TEST_CASE("rsl::uniform_int") {
         CHECK(value >= lower);
         CHECK(value <= upper);
     }
+}
+
+TEST_CASE("rsl::random_unit_quaternion") {
+    for (int i = 0; i < 1'000; ++i)
+        CHECK(rsl::random_unit_quaternion().norm() == Catch::Approx(1.).epsilon(0).margin(1e-6));
 }

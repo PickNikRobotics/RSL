@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Eigen/Geometry>
 #include <cassert>
 #include <random>
 #include <type_traits>
@@ -54,5 +55,11 @@ auto uniform_int(IntType lower, IntType upper) {
     assert(lower <= upper);
     return std::uniform_int_distribution(lower, upper)(rng());
 }
+
+/**
+ * @brief Generate a random unit quaternion of doubles
+ * @return Random unit quaternion
+ */
+auto random_unit_quaternion() -> Eigen::Quaterniond;
 
 }  // namespace rsl
