@@ -1,4 +1,4 @@
-#include <rsl/rand.hpp>
+#include <rsl/random.hpp>
 
 #include <algorithm>
 #include <array>
