@@ -203,6 +203,23 @@ TEST_CASE("rsl::has_value") {
     }
 }
 
+TEST_CASE("rsl::unwrap") {
+    SECTION("Copyable type") {
+        auto optional = std::make_optional(99);
+        CHECK(rsl::unwrap(optional) == 99);
+        CHECK(!optional.has_value());
+    }
+
+    SECTION("Move-only type") {
+        auto optional = std::make_optional(std::make_unique<std::string>("Test"));
+        auto* ptr = optional->get();
+        auto const value = rsl::unwrap(optional);
+        CHECK(value.get() == ptr);
+        CHECK(*value == "Test");
+        CHECK(!optional.has_value());
+    }
+}
+
 TEST_CASE("operator|") {
     auto const i = [](auto x) { return x; };
     auto const k = [](auto x) { return [=](auto) { return x; }; };

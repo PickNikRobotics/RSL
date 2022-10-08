@@ -2,6 +2,7 @@
 
 #include <tl_expected/expected.hpp>
 
+#include <cassert>
 #include <optional>
 
 namespace rsl {
@@ -121,6 +122,23 @@ template <typename T, typename E>
 template <typename T, typename E>
 [[nodiscard]] constexpr auto has_value(tl::expected<T, E> const& exp) {
     return exp.has_value();
+}
+
+/**
+ * @brief Steal value out of a non-null optional
+ *
+ * @param optional A non-null optional
+ *
+ * @tparam T Optional value type
+ *
+ * @return Value inside the optional
+ */
+template <typename T>
+[[nodiscard]] constexpr auto unwrap(std::optional<T>& optional) {
+    assert(optional.has_value());
+    auto value = std::move(*optional);
+    optional.reset();
+    return value;
 }
 
 template <typename>
