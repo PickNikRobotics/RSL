@@ -2,6 +2,11 @@
 
 namespace rsl {
 
+/**
+ * @brief Class template for creating overloads sets to use with std::visit
+ *
+ * @tparam Ts Types
+ */
 template <typename... Ts>
 struct Overload : Ts... {
     using Ts::operator()...;
