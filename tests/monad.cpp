@@ -208,18 +208,20 @@ TEST_CASE("rsl::has_value") {
 TEST_CASE("rsl::unwrap") {
     SECTION("Copyable type") {
         auto optional = std::make_optional(99);
-        CHECK(rsl::unwrap(optional) == 99);
+        CHECK(rsl::unwrap(std::move(optional)) == 99);
         CHECK(!optional.has_value());
     }
 
     SECTION("Move-only type") {
         auto optional = std::make_optional(std::make_unique<std::string>("Test"));
         auto* ptr = optional->get();
-        auto const value = rsl::unwrap(optional);
+        auto const value = rsl::unwrap(std::move(optional));
         CHECK(value.get() == ptr);
         CHECK(*value == "Test");
         CHECK(!optional.has_value());
     }
+
+    SECTION("From rvalue") { CHECK(rsl::unwrap(std::make_optional(3.14)) == 3.14); }
 }
 
 TEST_CASE("operator|") {
