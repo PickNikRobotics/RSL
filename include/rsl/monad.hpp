@@ -7,15 +7,15 @@
 namespace rsl {
 
 /**
- * @brief      Monad optional bind
+ * @brief Monad optional bind
  *
- * @param[in]  opt   The input optional
- * @param[in]  fn    The function, must return a optional
+ * @param opt Input optional
+ * @param fn  Function, must return a optional
  *
- * @tparam     T     The input type
- * @tparam     Fn    The function
+ * @tparam T  Input type
+ * @tparam Fn Function
  *
- * @return     Return type of fn
+ * @return Return type of fn
  */
 template <typename T, typename Fn>
 [[nodiscard]] constexpr auto mbind(std::optional<T> const& opt, Fn fn)
@@ -27,16 +27,16 @@ template <typename T, typename Fn>
 }
 
 /**
- * @brief      Monad tl::expected<T,E>
+ * @brief Monad tl::expected<T,E>
  *
- * @param[in]  exp   The tl::expected<T,E> input
- * @param[in]  fn    The function to apply
+ * @param exp tl::expected<T,E> input
+ * @param fn  Function to apply
  *
- * @tparam     T     The type for the input expected
- * @tparam     E     The error type
- * @tparam     Fn    The function
+ * @tparam T  Type for the input expected
+ * @tparam E  Error type
+ * @tparam Fn Function
  *
- * @return     The return type of the function
+ * @return Return type of the function
  */
 template <typename T, typename E, typename Fn>
 [[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp, Fn fn)
@@ -46,14 +46,14 @@ template <typename T, typename E, typename Fn>
 }
 
 /**
- * @brief      Monadic try, used to lift a function that throws an
- * exception one that returns an tl::expected<T, std::exception_ptr>
+ * @brief Monadic try, used to lift a function that throws an exception into one that returns an
+ * tl::expected<T, std::exception_ptr>
  *
- * @param[in]  fn    The function to call
+ * @param fn Function to call
  *
- * @tparam     Fn    The function type
+ * @tparam Fn Function type
  *
- * @return     The return value of the function
+ * @return Return value of the function
  */
 template <typename Fn>
 [[nodiscard]] auto mtry(Fn fn) -> tl::expected<std::invoke_result_t<Fn>, std::exception_ptr> try {
@@ -63,15 +63,15 @@ template <typename Fn>
 }
 
 /**
- * @brief      Monadic compose two monad functions
+ * @brief Monadic compose two monad functions
  *
- * @param[in]  fn    The first function
- * @param[in]  g     The second function
+ * @param fn First function
+ * @param g  Second function
  *
- * @tparam     Fn    The type of the first function
- * @tparam     G     The type of the second function
+ * @tparam Fn Type of the first function
+ * @tparam G  Type of the second function
  *
- * @return     A functional composition of two monad functions
+ * @return A functional composition of two monad functions
  */
 template <typename Fn, typename G>
 [[nodiscard]] constexpr auto mcompose(Fn fn, G g) {
@@ -79,30 +79,30 @@ template <typename Fn, typename G>
 }
 
 /**
- * @brief      Variadic mcompose
+ * @brief Variadic mcompose
  *
- * @param[in]  t      The first function
- * @param[in]  g      The second function
- * @param[in]  vars   The rest of the functions
+ * @param t    First function
+ * @param g    Second function
+ * @param vars Rest of the functions
  *
- * @tparam     T      The type of the first function
- * @tparam     G      The type of the second function
- * @tparam     Types  The types of the rest of the functions
+ * @tparam T  Type of the first function
+ * @tparam G  Type of the second function
+ * @tparam Ts Types of the rest of the functions
  *
- * @return     A functional composition of variadic monad functions
+ * @return A functional composition of variadic monad functions
  */
-template <typename T, typename G, typename... Types>
-[[nodiscard]] constexpr auto mcompose(T t, G g, Types... vars) {
+template <typename T, typename G, typename... Ts>
+[[nodiscard]] constexpr auto mcompose(T t, G g, Ts... vars) {
     auto exp = mcompose(t, g);
     return mcompose(exp, vars...);
 }
 
 /**
- * @brief           Test if expected type is Error
+ * @brief Test if expected type is Error
  *
- * @param[in] exp   The input tl::expected<T,E> value
+ * @param exp Input tl::expected<T,E> value
  *
- * @return          True if expected paraemter is Error
+ * @return True if expected paraemter is Error
  */
 template <typename T, typename E>
 [[nodiscard]] constexpr auto has_error(tl::expected<T, E> const& exp) {
@@ -110,11 +110,11 @@ template <typename T, typename E>
 }
 
 /**
- * @brief           Test if expected type is Value
+ * @brief Test if expected type is Value
  *
- * @param[in] exp   The input tl::expected<T,E> value
+ * @param exp Input tl::expected<T,E> value
  *
- * @return          True if expected paraemter is Value
+ * @return True if expected paraemter is Value
  */
 template <typename T, typename E>
 [[nodiscard]] constexpr auto has_value(tl::expected<T, E> const& exp) {
@@ -131,15 +131,15 @@ constexpr bool is_optional = is_optional_impl<std::remove_cv_t<std::remove_refer
 }  // namespace rsl
 
 /**
- * @brief      Overload of the | operator as bind
+ * @brief Overload of the | operator as bind
  *
- * @param[in]  opt   The input optional
- * @param[in]  f     The function
+ * @param opt Input optional
+ * @param f   Function
  *
- * @tparam     T     The input type
- * @tparam     Fn     The function
+ * @tparam T  Input type
+ * @tparam Fn Function
  *
- * @return     Return type of f
+ * @return Return type of f
  */
 template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<T>>,
           typename = std::enable_if_t<std::is_invocable_v<
@@ -149,16 +149,16 @@ template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<
 }
 
 /**
- * @brief      Overload of the | operator as bind
+ * @brief Overload of the | operator as bind
  *
- * @param[in]  exp   The input tl::expected<T,E> value
- * @param[in]  fn    The function to apply
+ * @param exp Input tl::expected<T,E> value
+ * @param fn  Function to apply
  *
- * @tparam     T     The type for the input expected
- * @tparam     E     The error type
- * @tparam     Fn    The function
+ * @tparam T  Type for the input expected
+ * @tparam E  Error type
+ * @tparam Fn Function
  *
- * @return     Return type of fn
+ * @return Return type of fn
  */
 template <typename T, typename E, typename Fn>
 [[nodiscard]] constexpr auto operator|(tl::expected<T, E> const& exp, Fn fn) {
@@ -166,15 +166,15 @@ template <typename T, typename E, typename Fn>
 }
 
 /**
- * @brief      Overload of the | operator for unary functions
+ * @brief Overload of the | operator for unary functions
  *
- * @param[in]  val   The input value
- * @param[in]  fn    The function to apply on val
+ * @param val Input value
+ * @param fn  Function to apply on val
  *
- * @tparam     T     The type for the input
- * @tparam     Fn    The function
+ * @tparam T  Type for the input
+ * @tparam Fn Function
  *
- * @return     Return the result of invoking the function on val
+ * @return Return the result of invoking the function on val
  */
 template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional<T>>>
 [[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) ->

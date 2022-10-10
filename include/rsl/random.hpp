@@ -16,7 +16,7 @@ namespace rsl {
  * sequence is provided this function throws. The returned value is a reference to a thread_local
  * static generator.
  *
- * @param[in] seed_sequence Seed sequence for random number generator
+ * @param seed_sequence Seed sequence for random number generator
  *
  * @return Seeded random number generator
  */
@@ -25,8 +25,8 @@ auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
 /**
  * @brief Get a uniform real number in a given range
  *
- * @param[in] lower Lower bound, inclusive
- * @param[in] upper Upper bound, exclusive
+ * @param lower Lower bound, inclusive
+ * @param upper Upper bound, exclusive
  *
  * @tparam RealType Floating point type
  *
@@ -42,8 +42,8 @@ auto uniform_real(RealType lower, RealType upper) {
 /**
  * @brief Get a uniform integer number in a given range
  *
- * @param[in] lower Lower bound, inclusive
- * @param[in] upper Upper bound, inclusive
+ * @param lower Lower bound, inclusive
+ * @param upper Upper bound, inclusive
  *
  * @tparam IntType Integral type
  *
