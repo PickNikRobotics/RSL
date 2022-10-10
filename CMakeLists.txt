@@ -22,6 +22,8 @@ target_include_directories(rsl PUBLIC
 )
 target_link_libraries(rsl PUBLIC Eigen3::Eigen tl_expected::tl_expected)
 
+add_subdirectory(docs)
+
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()

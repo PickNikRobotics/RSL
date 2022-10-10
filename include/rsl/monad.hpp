@@ -6,6 +6,8 @@
 
 namespace rsl {
 
+/** @file */
+
 /**
  * @brief Monad optional bind
  *

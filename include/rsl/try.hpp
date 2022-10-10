@@ -2,6 +2,8 @@
 
 #include <tl_expected/expected.hpp>
 
+/** @file */
+
 /**
  * @brief Unwrap an expected into a stack variable or return the unexpected value
  *
