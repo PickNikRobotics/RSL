@@ -5,9 +5,9 @@
 namespace rsl {
 
 /**
- * @brief      Template for creating lambdas with the nodiscard attribute
+ * @brief Template for creating lambdas with the nodiscard attribute
  *
- * @tparam     Fn The lambda
+ * @tparam Fn  Lambda
  */
 template <typename Fn>
 struct NoDiscard {
