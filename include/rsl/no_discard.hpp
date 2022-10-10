@@ -8,8 +8,6 @@ namespace rsl {
  * @brief      Template for creating lambdas with the nodiscard attribute
  *
  * @tparam     Fn The lambda
- *
- * @example    no_discard.cpp
  */
 template <typename Fn>
 struct NoDiscard {
