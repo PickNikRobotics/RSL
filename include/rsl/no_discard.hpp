@@ -4,6 +4,8 @@
 
 namespace rsl {
 
+/** @file */
+
 /**
  * @brief Template for creating lambdas with the nodiscard attribute
  *

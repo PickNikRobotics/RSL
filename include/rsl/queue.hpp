@@ -8,6 +8,8 @@
 
 namespace rsl {
 
+/** @file */
+
 /**
  * @brief Thread-safe queue. Particularly useful when multiple threads need to write to and/or read
  * from a queue.

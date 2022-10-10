@@ -2,6 +2,8 @@
 
 namespace rsl {
 
+/** @file */
+
 /**
  * @brief Class template for creating overloads sets to use with std::visit
  *

@@ -7,6 +7,8 @@
 
 namespace rsl {
 
+/** @file */
+
 /**
  * @brief Get a random number generator
  *
