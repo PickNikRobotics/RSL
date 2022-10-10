@@ -134,7 +134,7 @@ template <typename T, typename E>
  * @return Value inside the optional
  */
 template <typename T>
-[[nodiscard]] constexpr auto unwrap(std::optional<T>& optional) {
+[[nodiscard]] constexpr auto unwrap(std::optional<T>&& optional) {
     assert(optional.has_value());
     auto value = std::move(*optional);
     optional.reset();
