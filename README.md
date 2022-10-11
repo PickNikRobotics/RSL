@@ -6,6 +6,8 @@
 
 RSL is a collection of C++17 utilities for ROS projects.
 
+Read the docs [here](https://picknikrobotics.github.io/RSL/files.html).
+
 ## Killer Features
 
 * [monad.hpp](include/rsl/monad.hpp) - Functions and operators for monadic expressions
