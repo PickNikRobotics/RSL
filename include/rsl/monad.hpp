@@ -136,7 +136,7 @@ constexpr bool is_optional = is_optional_impl<std::remove_cv_t<std::remove_refer
  * @brief Overload of the | operator as bind
  *
  * @param opt Input optional
- * @param f   Function
+ * @param fn  Function
  *
  * @tparam T  Input type
  * @tparam Fn Function
