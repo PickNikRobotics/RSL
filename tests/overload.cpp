@@ -8,7 +8,7 @@ TEST_CASE("rsl::Overload") {
     enum class Type { INT, FLOAT, STRING } type;
     auto const overload =
         rsl::Overload{[&type](int) { type = Type::INT; }, [&type](float) { type = Type::FLOAT; },
-                      [&type](std::string) { type = Type::STRING; }};
+                      [&type](std::string const&) { type = Type::STRING; }};
 
     auto variant = std::variant<int, float, std::string>();
 
