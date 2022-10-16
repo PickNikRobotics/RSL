@@ -33,11 +33,9 @@ jobs:
       - name: Configure
         run: cmake --preset ${{ matrix.preset }}
       - name: Build
-        working-directory: ./build/${{ matrix.preset }}
-        run: ninja
+        run: cmake --build build/${{ matrix.preset }}
       - name: Test
-        working-directory: ./build/${{ matrix.preset }}
-        run: ctest . --rerun-failed --output-on-failure
+        run: ctest --test-dir build/${{ matrix.preset }} --rerun-failed --output-on-failure
       - name: Generate LCOV report
         if: ${{ matrix.preset == 'codecov' }}
         run: lcov -c -d . -o coverage.info --no-external --exclude "*/build/**"
