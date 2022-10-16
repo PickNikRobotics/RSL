@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(rsl VERSION 0.1.1 LANGUAGES CXX DESCRIPTION "ROS Support Library")
 
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 find_package(ament_cmake REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(tcb_span REQUIRED)
@@ -53,3 +55,5 @@ ament_export_dependencies(
     tl_expected
 )
 ament_package()
+
+add_custom_target(tidy COMMAND run-clang-tidy -p ${CMAKE_BINARY_DIR})

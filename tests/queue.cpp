@@ -13,6 +13,8 @@ static_assert(!std::is_copy_assignable_v<rsl::Queue<int>>);
 static_assert(!std::is_nothrow_move_constructible_v<rsl::Queue<int>>);
 static_assert(!std::is_nothrow_move_assignable_v<rsl::Queue<int>>);
 
+// NOLINTBEGIN(readability-container-size-empty)
+
 TEST_CASE("rsl::Queue") {
     SECTION("Default constructor") {
         auto const queue = rsl::Queue<int>();
@@ -88,3 +90,5 @@ TEST_CASE("rsl::Queue") {
         }
     }
 }
+
+// NOLINTEND(readability-container-size-empty)

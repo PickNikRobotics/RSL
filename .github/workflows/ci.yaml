@@ -36,6 +36,8 @@ jobs:
         run: cmake --build build/${{ matrix.preset }}
       - name: Test
         run: ctest --test-dir build/${{ matrix.preset }} --rerun-failed --output-on-failure
+      - name: Analyze
+        run: cmake --build build/${{ matrix.preset }} --target tidy
       - name: Generate LCOV report
         if: ${{ matrix.preset == 'codecov' }}
         run: lcov -c -d . -o coverage.info --no-external --exclude "*/build/**"
