@@ -12,9 +12,11 @@ namespace rsl {
  * @tparam Fn  Lambda
  */
 template <typename Fn>
-struct NoDiscard {
+class NoDiscard {
     static_assert(std::is_invocable_v<Fn()>, "Fn must be invocable");
     Fn fn_;
+
+   public:
     NoDiscard(Fn const& fn) : fn_(fn) {}
     template <typename... Ts>
     [[nodiscard]] constexpr auto operator()(Ts&&... args) const
