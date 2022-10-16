@@ -204,16 +204,16 @@ TEST_CASE("rsl::has_value") {
 }
 
 TEST_CASE("operator|") {
-    auto const I = [](auto x) { return x; };
-    auto const K = [](auto x) { return [=](auto) { return x; }; };
+    auto const i = [](auto x) { return x; };
+    auto const k = [](auto x) { return [=](auto) { return x; }; };
     auto const mul = [](auto x, auto y) { return x * y; };
     auto const bind1 = [](auto fn, auto x) { return [=](auto y) { return fn(x, y); }; };
     auto const three = [](auto) { return int{3}; };
     auto const wrap = [](auto x) { return Result<decltype(x)>{x}; };
 
-    CHECK((int{5} | I) == 5);
-    CHECK((int{5} | I | K(3)) == 3);
-    CHECK(((int{7} | I | K)(3)) == 7);
+    CHECK((int{5} | i) == 5);
+    CHECK((int{5} | i | k(3)) == 3);
+    CHECK(((int{7} | i | k)(3)) == 7);
     CHECK((int{4} | bind1(mul, 3)) == 12);
     CHECK((double{5} | three) == 3);
     CHECK((double{5} | wrap).value() == Catch::Approx(5));

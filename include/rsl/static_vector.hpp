@@ -16,8 +16,8 @@ namespace rsl {
  */
 template <typename T, size_t capacity>
 class StaticVector {
-    std::array<T, capacity> data_;
-    size_t size_;
+    std::array<T, capacity> data_{};
+    size_t size_{};
 
    public:
     /**
