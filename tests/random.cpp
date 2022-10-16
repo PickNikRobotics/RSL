@@ -6,7 +6,7 @@
 #include <thread>
 
 TEST_CASE("rsl::rng") {
-    auto const rng = &rsl::rng();
+    auto* const rng = &rsl::rng();
 
     SECTION("Repeated calls in thread yield same object") {
         CHECK(rng == &rsl::rng());
