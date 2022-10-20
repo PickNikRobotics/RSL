@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 project(rsl VERSION 0.1.1 LANGUAGES CXX DESCRIPTION "ROS Support Library")
 
-set(CMAKE_CXX_EXTENSIONS ON)
-
 find_package(ament_cmake REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(tl_expected REQUIRED)
