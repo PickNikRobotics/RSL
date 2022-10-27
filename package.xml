@@ -17,6 +17,7 @@
   <buildtool_depend>git</buildtool_depend>
 
   <depend>eigen</depend>
+  <depend>tcb_span</depend>
   <depend>tl_expected</depend>
 
   <test_depend>range-v3</test_depend>
