@@ -10,6 +10,8 @@ add_executable(test-rsl
     overload.cpp
     queue.cpp
     random.cpp
+    static_string.cpp
+    static_vector.cpp
     try.cpp)
 target_link_libraries(test-rsl PRIVATE
     rsl::rsl
