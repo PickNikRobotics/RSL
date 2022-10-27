@@ -18,7 +18,8 @@ namespace rsl {
 template <typename Collection>
 [[nodiscard]] auto contains(Collection const& collection,
                             typename Collection::const_reference value) {
-    return std::find(collection.cbegin(), collection.cend(), value) != collection.cend();
+    return std::find(std::cbegin(collection), std::cend(collection), value) !=
+           std::cend(collection);
 }
 
 /**
@@ -35,8 +36,9 @@ template <typename Collection>
  */
 template <typename Collection>
 [[nodiscard]] auto is_unique(Collection collection) {
-    std::sort(collection.begin(), collection.end());
-    return std::adjacent_find(collection.cbegin(), collection.cend()) == collection.cend();
+    std::sort(std::begin(collection), std::end(collection));
+    return std::adjacent_find(std::cbegin(collection), std::cend(collection)) ==
+           std::cend(collection);
 }
 
 }  // namespace rsl
