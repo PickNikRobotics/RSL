@@ -5,6 +5,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(ament_cmake REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(fmt REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(tcb_span REQUIRED)
 find_package(tl_expected REQUIRED)
 
@@ -16,6 +18,7 @@ endif()
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 add_library(rsl
+    src/parameter_validators.cpp
     src/random.cpp
 )
 add_library(rsl::rsl ALIAS rsl)
@@ -26,6 +29,8 @@ target_include_directories(rsl PUBLIC
 )
 target_link_libraries(rsl PUBLIC
     Eigen3::Eigen
+    fmt::fmt
+    rclcpp::rclcpp
     tcb_span::tcb_span
     tl_expected::tl_expected
 )
@@ -52,6 +57,8 @@ install(
 ament_export_targets(export_rsl HAS_LIBRARY_TARGET)
 ament_export_dependencies(
     Eigen3
+    fmt
+    rclcpp
     tcb_span
     tl_expected
 )
