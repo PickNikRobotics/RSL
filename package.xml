@@ -17,6 +17,8 @@
   <buildtool_depend>git</buildtool_depend>
 
   <depend>eigen</depend>
+  <depend>fmt</depend>
+  <depend>rclcpp</depend>
   <depend>tcb_span</depend>
   <depend>tl_expected</depend>
 

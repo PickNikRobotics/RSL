@@ -8,6 +8,7 @@ add_executable(test-rsl
     monad.cpp
     no_discard.cpp
     overload.cpp
+    parameter_validators.cpp
     queue.cpp
     random.cpp
     static_string.cpp
