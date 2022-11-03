@@ -81,7 +81,7 @@ TEST_CASE("rsl::StaticVector") {
 }
 
 TEST_CASE("rsl::to_vector") {
-    CHECK(rsl::to_vector(rsl::StaticVector<int, 0>{}) == std::vector<int>{});
+    CHECK(rsl::to_vector(rsl::StaticVector<int, 0>{}).empty());
     CHECK(rsl::to_vector(rsl::StaticVector<int, 5>{1, 2, 3, 4, 5}) ==
           std::vector<int>{1, 2, 3, 4, 5});
 }
