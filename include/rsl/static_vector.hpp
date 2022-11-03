@@ -44,22 +44,22 @@ class StaticVector {
     /**
      * @brief Get a mutable begin iterator
      */
-    auto begin() { return data_.begin(); }
+    [[nodiscard]] auto begin() { return data_.begin(); }
 
     /**
      * @brief Get a const begin iterator
      */
-    auto begin() const { return data_.cbegin(); }
+    [[nodiscard]] auto begin() const { return data_.cbegin(); }
 
     /**
      * @brief Get a mutable end iterator
      */
-    auto end() { return data_.begin() + size_; }
+    [[nodiscard]] auto end() { return data_.begin() + size_; }
 
     /**
      * @brief Get a const end iterator
      */
-    auto end() const { return data_.cbegin() + size_; }
+    [[nodiscard]] auto end() const { return data_.cbegin() + size_; }
 
     /**
      * @brief Implicit conversion to tcb::span<T>
