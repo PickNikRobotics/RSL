@@ -52,7 +52,7 @@ class StaticString {
  * @brief Explicit conversion to std::string
  */
 template <size_t capacity>
-auto to_string(StaticString<capacity> const& static_string) {
+[[nodiscard]] auto to_string(StaticString<capacity> const& static_string) {
     return std::string(static_string);
 }
 

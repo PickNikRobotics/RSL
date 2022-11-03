@@ -35,7 +35,7 @@ auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
  * @return Uniform real in range [lower, upper)
  */
 template <typename RealType>
-auto uniform_real(RealType lower, RealType upper) {
+[[nodiscard]] auto uniform_real(RealType lower, RealType upper) {
     static_assert(std::is_floating_point_v<RealType>);
     assert(lower < upper);
     return std::uniform_real_distribution(lower, upper)(rng());
@@ -52,7 +52,7 @@ auto uniform_real(RealType lower, RealType upper) {
  * @return Uniform integer in range [lower, upper]
  */
 template <typename IntType>
-auto uniform_int(IntType lower, IntType upper) {
+[[nodiscard]] auto uniform_int(IntType lower, IntType upper) {
     static_assert(std::is_integral_v<IntType>);
     assert(lower <= upper);
     return std::uniform_int_distribution(lower, upper)(rng());
@@ -62,6 +62,6 @@ auto uniform_int(IntType lower, IntType upper) {
  * @brief Generate a random unit quaternion of doubles
  * @return Random unit quaternion
  */
-auto random_unit_quaternion() -> Eigen::Quaterniond;
+[[nodiscard]] auto random_unit_quaternion() -> Eigen::Quaterniond;
 
 }  // namespace rsl

@@ -76,7 +76,7 @@ class StaticVector {
  * @brief Explicit conversion to std::vector<T>
  */
 template <typename T, size_t capacity>
-auto to_vector(StaticVector<T, capacity> const& static_vector) {
+[[nodiscard]] auto to_vector(StaticVector<T, capacity> const& static_vector) {
     return std::vector<T>{static_vector.begin(), static_vector.end()};
 }
 
