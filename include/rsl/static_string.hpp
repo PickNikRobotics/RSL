@@ -35,12 +35,12 @@ class StaticString {
     /**
      * @brief Get a const begin iterator
      */
-    auto begin() const { return data_.cbegin(); }
+    [[nodiscard]] auto begin() const { return data_.cbegin(); }
 
     /**
      * @brief Get a const end iterator
      */
-    auto end() const { return data_.cbegin() + size_; }
+    [[nodiscard]] auto end() const { return data_.cbegin() + size_; }
 
     /**
      * @brief Implicit conversion to std::string_view
