@@ -15,8 +15,8 @@ namespace rsl {
  */
 template <size_t capacity>
 class StaticString {
-    std::array<std::string::value_type, capacity> data_;
-    size_t size_;
+    std::array<std::string::value_type, capacity> data_{};
+    size_t size_{};
 
    public:
     /**
