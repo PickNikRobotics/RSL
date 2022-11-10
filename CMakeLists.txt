@@ -14,6 +14,7 @@ add_library(rsl
     src/random.cpp
 )
 add_library(rsl::rsl ALIAS rsl)
+set_property(TARGET rsl PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_compile_features(rsl PUBLIC cxx_std_17)
 target_include_directories(rsl PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
