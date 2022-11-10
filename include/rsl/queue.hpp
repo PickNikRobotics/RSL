@@ -16,6 +16,10 @@ namespace rsl {
  */
 template <typename T>
 class Queue {
+    std::queue<T> queue_;
+    std::condition_variable cv_;
+    mutable std::mutex mutex_;
+
    public:
     /**
      * @brief Get the size of the queue
@@ -71,10 +75,5 @@ class Queue {
         queue_.pop();
         return value;
     }
-
-   private:
-    std::queue<T> queue_;
-    std::condition_variable cv_;
-    mutable std::mutex mutex_;
 };
 }  // namespace rsl
