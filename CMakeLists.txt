@@ -24,6 +24,8 @@ target_link_libraries(rsl PUBLIC
     tcb_span::tcb_span
     tl_expected::tl_expected
 )
+# Workaround for the fact that RSL is shipped as a static library without PIC enabled
+set_target_properties(rsl PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(docs)
 
