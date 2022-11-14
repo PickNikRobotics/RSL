@@ -77,7 +77,7 @@ class StaticVector {
  */
 template <typename T, size_t capacity>
 [[nodiscard]] auto to_vector(StaticVector<T, capacity> const& static_vector) {
-    return std::vector<T>{static_vector.begin(), static_vector.end()};
+    return std::vector<T>(static_vector.begin(), static_vector.end());
 }
 
 }  // namespace rsl
