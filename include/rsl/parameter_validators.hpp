@@ -11,6 +11,9 @@
 #include <fmt/ranges.h>
 
 namespace rsl {
+
+/** @file */
+
 /**
  * @cond DETAIL
  */
@@ -48,8 +51,6 @@ template <typename T, typename Fn>
 /**
  * @endcond
  */
-
-/** @file Validation functions for rclcpp::Parameter */
 
 /**
  * @brief Is every element of rclcpp::Parameter unique?
