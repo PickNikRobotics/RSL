@@ -12,6 +12,9 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
+# Default to shared libraries to work around the Debian ecosystem's inability to specify -DBUILD_SHARED_LIBS=ON at configuration :(
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
 add_library(rsl
     src/random.cpp
 )
@@ -26,8 +29,6 @@ target_link_libraries(rsl PUBLIC
     tcb_span::tcb_span
     tl_expected::tl_expected
 )
-# Workaround for the fact that RSL is shipped as a static library without PIC enabled
-set_target_properties(rsl PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(docs)
 
