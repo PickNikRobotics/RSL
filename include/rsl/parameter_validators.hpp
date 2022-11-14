@@ -55,8 +55,8 @@ template <typename T, typename Fn>
 /**
  * @brief Is every element of rclcpp::Parameter unique?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto unique(rclcpp::Parameter const& parameter) -> tl::expected<void, std::string> {
@@ -68,8 +68,8 @@ template <typename T>
 /**
  * @brief Are the values in parameter a subset of the valid values?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto subset_of(rclcpp::Parameter const& parameter, std::vector<T> const& valid_values)
@@ -86,8 +86,8 @@ template <typename T>
 /**
  * @brief Is the array size of parameter equal to passed in size?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto fixed_size(rclcpp::Parameter const& parameter, size_t const size) {
@@ -97,8 +97,8 @@ template <typename T>
 /**
  * @brief Is the array size of parameter greater than passed in size?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto size_gt(rclcpp::Parameter const& parameter, size_t const size) {
@@ -108,8 +108,8 @@ template <typename T>
 /**
  * @brief Is the array size of parameter less than passed in size?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto size_lt(rclcpp::Parameter const& parameter, size_t const size) {
@@ -119,9 +119,9 @@ template <typename T>
 /**
  * @brief Is the size of the value passed in not zero?
  * @pre rclcpp::Parameter must be an array type or a string
- * @tparam T the interior type of array or std::string; Example: for parameter type double_array, T
+ * @tparam T Interior type of array or std::string; e.g. for parameter type double_array, T
  * = double
- * @return help string if the parameter is invalid, otherwise void
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto not_empty(rclcpp::Parameter const& parameter)
@@ -143,8 +143,8 @@ template <typename T>
 /**
  * @brief Are all elements of parameter within the bounds (inclusive)?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto element_bounds(rclcpp::Parameter const& parameter, T const& lower,
@@ -161,8 +161,8 @@ template <typename T>
 /**
  * @brief Are all elements of parameter greater than lower bound?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto lower_element_bounds(rclcpp::Parameter const& parameter, T const& lower)
@@ -179,8 +179,8 @@ template <typename T>
 /**
  * @brief Are all elements of parameter less than some upper bound?
  * @pre rclcpp::Parameter must be an array type
- * @tparam T the interior type of array; Example: for parameter type double_array, T = double
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of array; e.g. for parameter type double_array, T = double
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto upper_element_bounds(rclcpp::Parameter const& parameter, T const& upper)
@@ -197,8 +197,8 @@ template <typename T>
 /**
  * @brief Is parameter within bounds (inclusive)?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto bounds(rclcpp::Parameter const& parameter, T const& lower, T const& upper)
@@ -214,8 +214,8 @@ template <typename T>
 /**
  * @brief Is parameter within some lower bound (same as gt_eq)?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto lower_bounds(rclcpp::Parameter const& parameter, T const& value) {
@@ -225,8 +225,8 @@ template <typename T>
 /**
  * @brief Is parameter within some upper bound (same as lt_eq)?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto upper_bounds(rclcpp::Parameter const& parameter, T const& value) {
@@ -236,8 +236,8 @@ template <typename T>
 /**
  * @brief Is parameter less than some value?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto lt(rclcpp::Parameter const& parameter, T const& value) {
@@ -247,8 +247,8 @@ template <typename T>
 /**
  * @brief Is parameter greater than some value?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto gt(rclcpp::Parameter const& parameter, T const& value) {
@@ -258,8 +258,8 @@ template <typename T>
 /**
  * @brief Is parameter less than or equal to some value?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto lt_eq(rclcpp::Parameter const& parameter, T const& value) {
@@ -269,8 +269,8 @@ template <typename T>
 /**
  * @brief Is parameter greater than or equal to some value?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto gt_eq(rclcpp::Parameter const& parameter, T const& value) {
@@ -280,8 +280,8 @@ template <typename T>
 /**
  * @brief Is the parameter value one of a set of values?
  * @pre rclcpp::Parameter must be a non-array type
- * @tparam T the interior type of parameter; Example: for parameter type int, T = int64_t
- * @return help string if the parameter is invalid, otherwise void
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
 [[nodiscard]] auto one_of(rclcpp::Parameter const& parameter, std::vector<T> const& collection)
