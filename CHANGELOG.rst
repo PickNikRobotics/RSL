@@ -2,8 +2,8 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2022-11-15)
+------------------
 * New features
   * rclcpp::Parameter validator functions
   * Algorithms from parameter_traits
