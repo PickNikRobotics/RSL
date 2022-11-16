@@ -7,8 +7,10 @@
 #include <cmath>
 #include <string>
 
+using namespace std::string_literals;
+
 static constexpr auto maybe_non_zero(int in) {
-    return (in != 0) ? std::make_optional(in) : std::nullopt;
+    return (in != 0) ? std::optional(in) : std::nullopt;
 }
 
 static auto maybe_lt_3_round(double in) {
@@ -24,7 +26,7 @@ template <typename T>
 using Result = tl::expected<T, std::string>;
 
 static Result<double> divide(double x, double y) {
-    if (y == 0) return tl::make_unexpected("divide by 0");
+    if (y == 0) return tl::unexpected("divide by 0"s);
     return x / y;
 }
 
@@ -37,7 +39,7 @@ static Result<double> multiply_3(double x) { return multiply(3, x); }
 TEST_CASE("rsl::mbind") {
     SECTION("Optional value") {
         // GIVEN optional value 4
-        constexpr auto opt = std::make_optional(4);
+        constexpr auto opt = std::optional(4);
 
         // WHEN we rsl::mbind it with the function maybe_non_zero
         // THEN we expect it true
@@ -46,7 +48,7 @@ TEST_CASE("rsl::mbind") {
 
     SECTION("Overloaded optional value") {
         // GIVEN optional value -4.0
-        constexpr auto opt = std::make_optional(-4.0);
+        constexpr auto opt = std::optional(-4.0);
 
         // WHEN we rsl::mbind it with two functions chained with operator| overload
         // THEN we expect it true
@@ -64,7 +66,7 @@ TEST_CASE("rsl::mbind") {
 
     SECTION("Optional no value output") {
         // GIVEN optional value with 0.0
-        constexpr auto opt = std::make_optional(0);
+        constexpr auto opt = std::optional(0);
 
         // WHEN we rsl::mbind it with the function maybe_non_zero
         // THEN we expect it false
@@ -91,7 +93,7 @@ TEST_CASE("rsl::mbind") {
 
     SECTION("Compose two") {
         // GIVEN the functions maybe_non_zero and maybe_lt_3_round and an input opt
-        constexpr auto opt = std::make_optional(-4.0);
+        constexpr auto opt = std::optional(-4.0);
 
         // WHEN we compose them together and then bind them with an input
         auto const compose_fn = rsl::mcompose(maybe_lt_3_round, maybe_non_zero);
@@ -105,7 +107,7 @@ TEST_CASE("rsl::mbind") {
 
     SECTION("Compose three") {
         // GIVEN the functions maybe_non_zero and maybe_lt_3_round and an input opt
-        auto const opt = std::make_optional(-4.0);
+        auto const opt = std::optional(-4.0);
 
         // WHEN we compose them together multiple times and then bind them with an input
         auto const compose_result =
@@ -118,7 +120,7 @@ TEST_CASE("rsl::mbind") {
     }
 
     SECTION("Pass unexpected value through bind") {
-        Result<double> const input = tl::make_unexpected("foo");
+        Result<double> const input = tl::unexpected("foo"s);
         auto const result = rsl::mbind(input, multiply_3);
         REQUIRE(rsl::has_error(result));
         CHECK(result.error() == "foo");
@@ -151,7 +153,7 @@ TEST_CASE("rsl::mbind") {
             auto const out = static_cast<int>(in);
             auto const check = static_cast<double>(out);
             if (check != in) {
-                return tl::make_unexpected("no worky casty");
+                return tl::unexpected("no worky casty"s);
             }
             return out;
         };
@@ -162,7 +164,7 @@ TEST_CASE("rsl::mbind") {
 TEST_CASE("rsl::has_error") {
     SECTION("Error") {
         // GIVEN expected type containing error
-        auto const exp = tl::expected<int, double>(tl::make_unexpected(0.1));
+        auto const exp = tl::expected<int, double>(tl::unexpected(0.1));
 
         // WHEN calling rsl::has_value and tl::expected::has_value
         // THEN we expect rsl::has_value is true, and tl::expected::has_value is false
@@ -184,7 +186,7 @@ TEST_CASE("rsl::has_error") {
 TEST_CASE("rsl::has_value") {
     SECTION("Error") {
         // GIVEN expected type containing error
-        auto const exp = tl::expected<int, double>(tl::make_unexpected(0.1));
+        auto const exp = tl::expected<int, double>(tl::unexpected(0.1));
 
         // WHEN calling rsl::has_value and tl::expected::has_value
         // THEN we expect has_error is false, and has_value is false

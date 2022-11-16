@@ -30,6 +30,6 @@
 #define TRY(expected)                                                              \
     ({                                                                             \
         auto const& _expected = (expected); /* Uglify name to prevent shadowing */ \
-        if (!_expected.has_value()) return tl::make_unexpected(_expected.error()); \
+        if (!_expected.has_value()) return tl::unexpected(_expected.error());      \
         _expected.value();                                                         \
     })

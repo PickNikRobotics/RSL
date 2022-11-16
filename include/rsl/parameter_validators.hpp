@@ -26,13 +26,13 @@ template <typename T, typename Fn>
     switch (parameter.get_type()) {
         case rclcpp::ParameterType::PARAMETER_STRING:
             if (auto value = parameter.get_value<std::string>(); !predicate(value.size(), size))
-                return tl::make_unexpected(fmt::format(format_string, parameter.get_name(),
-                                                       value.size(), predicate_description, size));
+                return tl::unexpected(fmt::format(format_string, parameter.get_name(), value.size(),
+                                                  predicate_description, size));
             break;
         default:
             if (auto value = parameter.get_value<std::vector<T>>(); !predicate(value.size(), size))
-                return tl::make_unexpected(fmt::format(format_string, parameter.get_name(),
-                                                       value.size(), predicate_description, size));
+                return tl::unexpected(fmt::format(format_string, parameter.get_name(), value.size(),
+                                                  predicate_description, size));
     }
     return {};
 }
@@ -42,9 +42,9 @@ template <typename T, typename Fn>
                            std::string const& predicate_description, Fn const& predicate)
     -> tl::expected<void, std::string> {
     if (auto const param_value = parameter.get_value<T>(); !predicate(param_value, value))
-        return tl::make_unexpected(fmt::format("Parameter '{}' with the value {} must be {} {}",
-                                               parameter.get_name(), param_value,
-                                               predicate_description, value));
+        return tl::unexpected(fmt::format("Parameter '{}' with the value {} must be {} {}",
+                                          parameter.get_name(), param_value, predicate_description,
+                                          value));
     return {};
 }
 }  // namespace detail
@@ -61,7 +61,7 @@ template <typename T, typename Fn>
 template <typename T>
 [[nodiscard]] auto unique(rclcpp::Parameter const& parameter) -> tl::expected<void, std::string> {
     if (is_unique(parameter.get_value<std::vector<T>>())) return {};
-    return tl::make_unexpected(
+    return tl::unexpected(
         fmt::format("Parameter '{}' must only contain unique values", parameter.get_name()));
 }
 
@@ -77,7 +77,7 @@ template <typename T>
     auto const& values = parameter.get_value<std::vector<T>>();
     for (auto const& value : values)
         if (!contains(valid_values, value))
-            return tl::make_unexpected(
+            return tl::unexpected(
                 fmt::format("Entry '{}' in parameter '{}' is not in the set {{{}}}", value,
                             parameter.get_name(), fmt::join(valid_values, ", ")));
     return {};
@@ -129,12 +129,12 @@ template <typename T>
     switch (parameter.get_type()) {
         case rclcpp::ParameterType::PARAMETER_STRING:
             if (auto param_value = parameter.get_value<std::string>(); param_value.empty())
-                return tl::make_unexpected(
+                return tl::unexpected(
                     fmt::format("Parameter '{}' cannot be empty", parameter.get_name()));
             break;
         default:
             if (auto param_value = parameter.get_value<std::vector<T>>(); param_value.empty())
-                return tl::make_unexpected(
+                return tl::unexpected(
                     fmt::format("Parameter '{}' cannot be empty", parameter.get_name()));
     }
     return {};
@@ -152,7 +152,7 @@ template <typename T>
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val < lower || val > upper)
-            return tl::make_unexpected(
+            return tl::unexpected(
                 fmt::format("Value {} in parameter '{}' must be within bounds [{}, {}]", val,
                             parameter.get_name(), lower, upper));
     return {};
@@ -170,7 +170,7 @@ template <typename T>
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val < lower)
-            return tl::make_unexpected(
+            return tl::unexpected(
                 fmt::format("Value {} in parameter '{}' must be above lower bound of {}", val,
                             parameter.get_name(), lower));
     return {};
@@ -188,7 +188,7 @@ template <typename T>
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val > upper)
-            return tl::make_unexpected(
+            return tl::unexpected(
                 fmt::format("Value {} in parameter '{}' must be below upper bound of {}", val,
                             parameter.get_name(), upper));
     return {};
@@ -205,7 +205,7 @@ template <typename T>
     -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<T>();
     if (param_value < lower || param_value > upper)
-        return tl::make_unexpected(
+        return tl::unexpected(
             fmt::format("Parameter '{}' with the value {} must be within bounds [{}, {}]",
                         parameter.get_name(), param_value, lower, upper));
     return {};
@@ -288,9 +288,9 @@ template <typename T>
     -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<T>();
     if (contains(collection, param_value)) return {};
-    return tl::make_unexpected(fmt::format(
-        "Parameter '{}' with the value {} is not in the set {{{}}}", parameter.get_name(),
-        param_value, fmt::format("{}", fmt::join(collection, ", "))));
+    return tl::unexpected(fmt::format("Parameter '{}' with the value {} is not in the set {{{}}}",
+                                      parameter.get_name(), param_value,
+                                      fmt::format("{}", fmt::join(collection, ", "))));
 }
 
 /**
