@@ -8,9 +8,12 @@
 namespace rsl {
 
 auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
-    thread_local auto first = true;
+    thread_local auto is_seeded = false;
+    if (is_seeded && seed_sequence.size() > 0)
+        throw std::runtime_error("rng cannot be re-seeded on this thread");
+
     thread_local auto generator = [&seed_sequence]() {
-        first = false;
+        is_seeded = true;
         if (seed_sequence.size() > 0) return std::mt19937(seed_sequence);
         auto seed_data = std::array<int, std::mt19937::state_size>();
         auto random_device = std::random_device();
@@ -19,8 +22,6 @@ auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
         return std::mt19937(sequence);
     }();
 
-    if (!first && seed_sequence.size() > 0)
-        throw std::runtime_error("rng cannot be re-seeded on this thread");
     return generator;
 }
 
