@@ -3,26 +3,30 @@
 #include <algorithm>
 #include <array>
 #include <functional>
+#include <optional>
 #include <stdexcept>
 
 namespace rsl {
 
 auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
-    thread_local auto is_seeded = false;
-    if (is_seeded && seed_sequence.size() > 0)
+    thread_local auto generator = std::optional<std::mt19937>();
+
+    // Prevent reseeding the generator
+    if (generator.has_value() && seed_sequence.size() > 0)
         throw std::runtime_error("rng cannot be re-seeded on this thread");
 
-    thread_local auto generator = [&seed_sequence]() {
-        is_seeded = true;
-        if (seed_sequence.size() > 0) return std::mt19937(seed_sequence);
-        auto seed_data = std::array<int, std::mt19937::state_size>();
-        auto random_device = std::random_device();
-        std::generate_n(std::data(seed_data), std::size(seed_data), std::ref(random_device));
-        auto sequence = std::seed_seq(std::begin(seed_data), std::end(seed_data));
-        return std::mt19937(sequence);
-    }();
+    // Return existing generator
+    if (generator.has_value() && seed_sequence.size() == 0) return generator.value();
 
-    return generator;
+    // Seed with specified sequence
+    if (seed_sequence.size() > 0) return generator.emplace(seed_sequence);
+
+    // Seed with randomized sequence
+    auto seed_data = std::array<int, std::mt19937::state_size>();
+    auto random_device = std::random_device();
+    std::generate_n(seed_data.data(), seed_data.size(), std::ref(random_device));
+    auto sequence = std::seed_seq(seed_data.begin(), seed_data.end());
+    return generator.emplace(sequence);
 }
 
 auto random_unit_quaternion() -> Eigen::Quaterniond {
