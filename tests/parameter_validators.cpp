@@ -389,7 +389,7 @@ TEST_CASE("rsl::to_parameter_result_msg") {
     }
 
     SECTION("Has error") {
-        auto const parameter_result = rsl::to_parameter_result_msg(tl::make_unexpected("test"));
+        auto const parameter_result = rsl::to_parameter_result_msg(tl::unexpected("test"s));
         CHECK(!parameter_result.successful);
         CHECK(parameter_result.reason == "test");
     }

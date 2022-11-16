@@ -44,7 +44,7 @@ template <typename T, typename E, typename Fn>
 [[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp, Fn fn)
     -> std::invoke_result_t<Fn, T> {
     if (exp) return fn(exp.value());
-    return tl::make_unexpected(exp.error());
+    return tl::unexpected(exp.error());
 }
 
 /**
@@ -61,7 +61,7 @@ template <typename Fn>
 [[nodiscard]] auto mtry(Fn fn) -> tl::expected<std::invoke_result_t<Fn>, std::exception_ptr> try {
     return fn();
 } catch (...) {
-    return tl::make_unexpected(std::current_exception());
+    return tl::unexpected(std::current_exception());
 }
 
 /**
