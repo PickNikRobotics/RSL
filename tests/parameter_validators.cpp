@@ -380,3 +380,17 @@ TEST_CASE("rsl::one_of") {
     REQUIRE(!result);
     CHECK(result.error() == "Parameter 'test' with the value 0 is not in the set {1, 2, 3.5}");
 }
+
+TEST_CASE("rsl::to_parameter_result_msg") {
+    SECTION("Has value") {
+        auto const parameter_result = rsl::to_parameter_result_msg({});
+        CHECK(parameter_result.successful);
+        CHECK(parameter_result.reason.empty());
+    }
+
+    SECTION("Has error") {
+        auto const parameter_result = rsl::to_parameter_result_msg(tl::make_unexpected("test"));
+        CHECK(!parameter_result.successful);
+        CHECK(parameter_result.reason == "test");
+    }
+}
