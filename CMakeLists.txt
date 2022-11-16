@@ -25,7 +25,7 @@ add_library(rsl::rsl ALIAS rsl)
 target_compile_features(rsl PUBLIC cxx_std_17)
 target_include_directories(rsl PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/rsl>
 )
 target_link_libraries(rsl PUBLIC
     Eigen3::Eigen
@@ -43,7 +43,7 @@ endif()
 
 install(
     DIRECTORY include/
-    DESTINATION include
+    DESTINATION include/rsl
 )
 install(
     TARGETS rsl
