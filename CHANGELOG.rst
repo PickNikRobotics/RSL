@@ -2,8 +2,8 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.1 (2022-11-29)
+------------------
 * Use constructors over factory functions when possible
 * Implement `rsl::rng` with `std::optional`
 * Fix bug when trying to seed rng from first call
