@@ -2,6 +2,22 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Use constructors over factory functions when possible
+* Implement `rsl::rng` with `std::optional`
+* Fix bug when trying to seed rng from first call
+* Make `rsl::rng()` tests more strenuous
+  Seeding on the first call tests a code path that hadn't yet been
+  tested but is a valid use of the API.
+* Change version of range-v3 to allow building on Ubuntu Focal (`#73 <https://github.com/PickNikRobotics/RSL/issues/73>`_)
+* Add missing header
+  Fixes a build issue when using GCC 12
+* Make it easy for users to override
+* Update Catch2
+* Add tests for `rsl::to_parameter_result_msg`
+* Contributors: Chris Thrasher, Tony Najjar, Tyler Weaver
+
 0.2.0 (2022-11-15)
 ------------------
 * New features
