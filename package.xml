@@ -14,7 +14,6 @@
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
   <buildtool_depend>doxygen</buildtool_depend>
-  <buildtool_depend>git</buildtool_depend>
 
   <depend>eigen</depend>
   <depend>fmt</depend>
@@ -23,6 +22,7 @@
   <depend>tl_expected</depend>
 
   <test_depend>clang-tidy</test_depend>
+  <test_depend>git</test_depend>
   <test_depend>range-v3</test_depend>
 
   <export>
