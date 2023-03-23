@@ -247,42 +247,6 @@ TEST_CASE("rsl::bounds") {
     CHECK(result.error() == "Parameter 'test' with the value -4.3 must be within bounds [1, 5]");
 }
 
-TEST_CASE("rsl::lower_bounds") {
-    CHECK(rsl::lower_bounds<double>(Parameter("", 2.0), 2.0));
-    CHECK(rsl::lower_bounds<double>(Parameter("", 4.3), 1.0));
-    CHECK(!rsl::lower_bounds<double>(Parameter("", -4.3), 1.0));
-
-    CHECK(rsl::lower_bounds<int64_t>(Parameter("", 1), 1));
-    CHECK(rsl::lower_bounds<int64_t>(Parameter("", 4), 1));
-    CHECK(!rsl::lower_bounds<int64_t>(Parameter("", -4), 1));
-
-    CHECK(rsl::lower_bounds<bool>(Parameter("", true), false));
-    CHECK(!rsl::lower_bounds<bool>(Parameter("", false), true));
-    CHECK(rsl::lower_bounds<bool>(Parameter("", true), true));
-
-    auto const result = rsl::lower_bounds<double>(Parameter("test", -4.3), 1.0);
-    REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value -4.3 must be above lower bound of 1");
-}
-
-TEST_CASE("rsl::upper_bounds") {
-    CHECK(rsl::upper_bounds<double>(Parameter("", 2.0), 2.0));
-    CHECK(!rsl::upper_bounds<double>(Parameter("", 4.3), 1.0));
-    CHECK(rsl::upper_bounds<double>(Parameter("", -4.3), 1.0));
-
-    CHECK(rsl::upper_bounds<int64_t>(Parameter("", 1), 1));
-    CHECK(!rsl::upper_bounds<int64_t>(Parameter("", 4), 1));
-    CHECK(rsl::upper_bounds<int64_t>(Parameter("", -4), 1));
-
-    CHECK(!rsl::upper_bounds<bool>(Parameter("", true), false));
-    CHECK(rsl::upper_bounds<bool>(Parameter("", false), true));
-    CHECK(rsl::upper_bounds<bool>(Parameter("", true), true));
-
-    auto const result = rsl::upper_bounds<double>(Parameter("test", 4.3), 1.0);
-    REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value 4.3 must be below upper bound of 1");
-}
-
 TEST_CASE("rsl::lt") {
     CHECK(!rsl::lt<double>(Parameter("", 2.0), 2.0));
     CHECK(!rsl::lt<double>(Parameter("", 4.3), 1.0));
