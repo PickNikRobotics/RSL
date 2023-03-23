@@ -2,6 +2,14 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.2 (2023-03-23)
+------------------
+* Deprecate `rsl::lower_bounds` and `rsl::upper_bounds`
+* Depend on ament_cmake_ros for SHARED default
+* Upgrade with new pkgs to fix issue with ROS
+* Update Catch2
+* Contributors: Chris Thrasher, Tyler Weaver
+
 0.2.1 (2022-11-29)
 ------------------
 * Use constructors over factory functions when possible
