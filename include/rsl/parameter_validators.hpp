@@ -218,7 +218,8 @@ template <typename T>
  * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
-[[nodiscard]] auto lower_bounds(rclcpp::Parameter const& parameter, T const& value) {
+[[deprecated("Replace with rsl::gt_eq"), nodiscard]] auto lower_bounds(
+    rclcpp::Parameter const& parameter, T const& value) {
     return detail::compare(parameter, value, "above lower bound of", std::greater_equal<T>());
 }
 
@@ -229,7 +230,8 @@ template <typename T>
  * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
-[[nodiscard]] auto upper_bounds(rclcpp::Parameter const& parameter, T const& value) {
+[[deprecated("Replace with rsl::lt_eq"), nodiscard]] auto upper_bounds(
+    rclcpp::Parameter const& parameter, T const& value) {
     return detail::compare(parameter, value, "below upper bound of", std::less_equal<T>());
 }
 
