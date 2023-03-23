@@ -10,7 +10,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # install build dependencies
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
-    apt-get update && apt-get upgrade -y \
+    apt-get update && apt-get upgrade -y --with-new-pkgs \
     && apt-get install -q -y --no-install-recommends \
     build-essential \
     ccache \
