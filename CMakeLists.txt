@@ -3,7 +3,7 @@ project(rsl VERSION 0.2.1 LANGUAGES CXX DESCRIPTION "ROS Support Library")
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_ros REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(fmt REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -13,9 +13,6 @@ find_package(tl_expected REQUIRED)
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
-
-# Default to shared libraries to work around the Debian ecosystem's inability to specify -DBUILD_SHARED_LIBS=ON at configuration :(
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 add_library(rsl
     src/parameter_validators.cpp
