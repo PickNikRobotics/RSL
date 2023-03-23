@@ -1,6 +1,6 @@
 # ROS Support Library (RSL)
 
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/PickNikRobotics/RSL/CI/main?label=CI)
+![GitHub CI Workflow Status](https://img.shields.io/github/actions/workflow/status/picknikrobotics/RSL/.github/workflows/ci.yaml?branch=main&label=CI)
 [![codecov](https://codecov.io/github/PickNikRobotics/RSL/branch/main/graph/badge.svg?token=t85cTyvsez)](https://codecov.io/github/PickNikRobotics/RSL)
 ![GitHub](https://img.shields.io/github/license/PickNikRobotics/RSL)
 
