@@ -7,10 +7,17 @@ on:
 
 jobs:
   cmake:
+    name: cmake (${{ matrix.ros_distro }}, ${{ matrix.preset }}, ${{ matrix.compiler.name }})
     strategy:
       matrix:
         ros_distro: [humble, rolling]
         preset: [debug, release, asan, codecov]
+        compiler:
+        - { name: gcc }
+        - { name: clang, flags: -DCMAKE_CXX_COMPILER=clang++ }
+        exclude:
+        - preset: codecov
+          compiler: { name: clang }
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ros_distro }}
     env:
@@ -30,8 +37,11 @@ jobs:
         run: |
           . /opt/ros/${{ matrix.ros_distro }}/setup.sh
           echo "$(env)" >> $GITHUB_ENV
+      - name: Install Clang
+        if: matrix.compiler.name == 'clang'
+        run: sudo apt update && sudo apt install clang
       - name: Configure
-        run: cmake --preset ${{ matrix.preset }}
+        run: cmake --preset ${{ matrix.preset }} ${{ matrix.compiler.flags }}
       - name: Build
         run: cmake --build build/${{ matrix.preset }}
       - name: Test
