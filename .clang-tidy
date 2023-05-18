@@ -31,8 +31,7 @@ CheckOptions:
   - { key: readability-identifier-naming.MemberCase,          value: lower_case }
   - { key: readability-identifier-naming.PrivateMemberCase,   value: lower_case }
   - { key: readability-identifier-naming.PrivateMemberSuffix, value: _ }
-  - { key: readability-function-cognitive-complexity.Threshold,               value: 15   }
-  - { key: readability-function-cognitive-complexity.DescribeBasicIncrements, value: True }
-  - { key: readability-function-cognitive-complexity.IgnoreMacros,            value: True }
+  - { key: readability-function-cognitive-complexity.Threshold,    value: 15   }
+  - { key: readability-function-cognitive-complexity.IgnoreMacros, value: True }
 HeaderFilterRegex: '.*'
 WarningsAsErrors: '*'
