@@ -14,6 +14,7 @@ add_executable(test-rsl
     random.cpp
     static_string.cpp
     static_vector.cpp
+    strong_type.cpp
     try.cpp)
 target_link_libraries(test-rsl PRIVATE
     rsl::rsl
