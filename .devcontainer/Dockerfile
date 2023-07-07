@@ -14,9 +14,9 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     && apt-get install -q -y --no-install-recommends \
     build-essential \
     ccache \
-    clang-14 \
-    clang-format-14 \
-    clang-tidy-14 \
+    clang-17 \
+    clang-format-17 \
+    clang-tidy-17 \
     cmake \
     curl \
     git \
