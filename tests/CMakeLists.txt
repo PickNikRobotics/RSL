@@ -1,6 +1,6 @@
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(Catch2 3.3.2 REQUIRED)
+find_package(Catch2 3.4.0 REQUIRED)
 find_package(range-v3 REQUIRED)
 
 add_executable(test-rsl
