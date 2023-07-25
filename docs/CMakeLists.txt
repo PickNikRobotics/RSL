@@ -1,4 +1,8 @@
-find_package(Doxygen 1.8 REQUIRED COMPONENTS doxygen)
+find_package(Doxygen 1.8 COMPONENTS doxygen)
+
+if(NOT Doxygen_FOUND)
+    return()
+endif()
 
 file(DOWNLOAD
      https://raw.githubusercontent.com/jothepro/doxygen-awesome-css/v2.1.0/doxygen-awesome.css
