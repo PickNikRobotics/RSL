@@ -212,30 +212,6 @@ template <typename T>
 }
 
 /**
- * @brief Is parameter within some lower bound (same as gt_eq)?
- * @pre rclcpp::Parameter must be a non-array type
- * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
- * @return Help string if the parameter is invalid, otherwise void
- */
-template <typename T>
-[[deprecated("Replace with rsl::gt_eq"), nodiscard]] auto lower_bounds(
-    rclcpp::Parameter const& parameter, T const& value) {
-    return detail::compare(parameter, value, "above lower bound of", std::greater_equal<T>());
-}
-
-/**
- * @brief Is parameter within some upper bound (same as lt_eq)?
- * @pre rclcpp::Parameter must be a non-array type
- * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
- * @return Help string if the parameter is invalid, otherwise void
- */
-template <typename T>
-[[deprecated("Replace with rsl::lt_eq"), nodiscard]] auto upper_bounds(
-    rclcpp::Parameter const& parameter, T const& value) {
-    return detail::compare(parameter, value, "below upper bound of", std::less_equal<T>());
-}
-
-/**
  * @brief Is parameter less than some value?
  * @pre rclcpp::Parameter must be a non-array type
  * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
@@ -293,6 +269,28 @@ template <typename T>
     return tl::unexpected(fmt::format("Parameter '{}' with the value {} is not in the set {{{}}}",
                                       parameter.get_name(), param_value,
                                       fmt::format("{}", fmt::join(collection, ", "))));
+}
+
+/**
+ * @brief Is parameter within some lower bound (same as gt_eq)?
+ * @pre rclcpp::Parameter must be a non-array type
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
+ */
+template <typename T>
+[[nodiscard]] auto lower_bounds(rclcpp::Parameter const& parameter, T const& value) {
+    return gt_eq<T>(parameter, value);
+}
+
+/**
+ * @brief Is parameter within some upper bound (same as lt_eq)?
+ * @pre rclcpp::Parameter must be a non-array type
+ * @tparam T Interior type of parameter; e.g. for parameter type int, T = int64_t
+ * @return Help string if the parameter is invalid, otherwise void
+ */
+template <typename T>
+[[nodiscard]] auto upper_bounds(rclcpp::Parameter const& parameter, T const& value) {
+    return lt_eq<T>(parameter, value);
 }
 
 /**
