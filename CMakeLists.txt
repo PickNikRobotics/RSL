@@ -36,6 +36,8 @@ if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
+include(CMakePackageConfigHelpers)
+
 install(
     DIRECTORY include/
     DESTINATION include/rsl
@@ -52,8 +54,9 @@ install(
     NAMESPACE rsl::
     DESTINATION share/rsl/cmake
 )
+write_basic_package_version_file(rsl-config-version.cmake COMPATIBILITY SameMajorVersion)
 install(
-    FILES cmake/rsl-config.cmake
+    FILES cmake/rsl-config.cmake ${PROJECT_BINARY_DIR}/rsl-config-version.cmake
     DESTINATION share/rsl/cmake
 )
 
