@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(rsl-install-test)
 
 if(PROJECT_IS_TOP_LEVEL)
-    find_package(rsl REQUIRED)
+    find_package(rsl 0.2.1 EXACT REQUIRED)
 endif()
 
 add_executable(test-rsl-install install.cpp)
