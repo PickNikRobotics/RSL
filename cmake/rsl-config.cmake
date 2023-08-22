@@ -1,3 +1,5 @@
+include(CMakeFindDependencyMacro)
+
 find_dependency(Eigen3)
 find_dependency(fmt)
 find_dependency(rclcpp)
