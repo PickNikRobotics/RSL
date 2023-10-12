@@ -60,7 +60,7 @@ TEST_CASE("rsl::subset_of") {
         rsl::subset_of<std::string>(Parameter("test", std::vector<std::string>{"foo", "foo"}),
                                     std::vector<std::string>{"", "1", "2", "three"});
     REQUIRE(!result);
-    CHECK(result.error() == "Entry 'foo' in parameter 'test' is not in the set {, 1, 2, three}");
+    CHECK(result.error() == "Entry 'foo' in parameter 'test' is not in the set '{, 1, 2, three}'");
 }
 
 TEST_CASE("rsl::fixed_size") {
@@ -87,7 +87,7 @@ TEST_CASE("rsl::fixed_size") {
 
     auto const result = rsl::fixed_size<std::string>(Parameter("test", "foo"), 0);
     REQUIRE(!result);
-    CHECK(result.error() == "Length of parameter 'test' is 3 but must be equal to 0");
+    CHECK(result.error() == "Length of parameter 'test' is '3' but must be equal to '0'");
 }
 
 TEST_CASE("rsl::size_gt") {
@@ -113,7 +113,7 @@ TEST_CASE("rsl::size_gt") {
 
     auto const result = rsl::size_gt<std::string>(Parameter("test", ""), 0);
     REQUIRE(!result);
-    CHECK(result.error() == "Length of parameter 'test' is 0 but must be greater than 0");
+    CHECK(result.error() == "Length of parameter 'test' is '0' but must be greater than '0'");
 }
 
 TEST_CASE("rsl::size_lt") {
@@ -139,7 +139,7 @@ TEST_CASE("rsl::size_lt") {
 
     auto const result = rsl::size_lt<std::string>(Parameter("test", "foo"), 3);
     REQUIRE(!result);
-    CHECK(result.error() == "Length of parameter 'test' is 3 but must be less than 3");
+    CHECK(result.error() == "Length of parameter 'test' is '3' but must be less than '3'");
 }
 
 TEST_CASE("rsl::not_empty") {
@@ -179,7 +179,7 @@ TEST_CASE("rsl::element_bounds") {
     auto const result =
         rsl::element_bounds<int64_t>(Parameter("test", std::vector<int64_t>{1, 2, 3}), -5, 0);
     REQUIRE(!result);
-    CHECK(result.error() == "Value 1 in parameter 'test' must be within bounds [-5, 0]");
+    CHECK(result.error() == "Value '1' in parameter 'test' must be within bounds '[-5, 0]'");
 }
 
 TEST_CASE("rsl::lower_element_bounds") {
@@ -199,7 +199,7 @@ TEST_CASE("rsl::lower_element_bounds") {
     auto const result =
         rsl::lower_element_bounds<int64_t>(Parameter("test", std::vector<int64_t>{1, 2, 3}), 3);
     REQUIRE(!result);
-    CHECK(result.error() == "Value 1 in parameter 'test' must be above lower bound of 3");
+    CHECK(result.error() == "Value '1' in parameter 'test' must be above lower bound of '3'");
 }
 
 TEST_CASE("rsl::upper_element_bounds") {
@@ -219,7 +219,7 @@ TEST_CASE("rsl::upper_element_bounds") {
     auto const result = rsl::upper_element_bounds<double>(
         Parameter("test", std::vector<double>{1.0, 2.2, 1.1}), 0.0);
     REQUIRE(!result);
-    CHECK(result.error() == "Value 1 in parameter 'test' must be below upper bound of 0");
+    CHECK(result.error() == "Value '1' in parameter 'test' must be below upper bound of '0'");
 }
 
 TEST_CASE("rsl::bounds") {
@@ -244,7 +244,8 @@ TEST_CASE("rsl::bounds") {
 
     auto const result = rsl::bounds<double>(Parameter("test", -4.3), 1.0, 5.0);
     REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value -4.3 must be within bounds [1, 5]");
+    CHECK(result.error() ==
+          "Parameter 'test' with the value '-4.3' must be within bounds '[1, 5]'");
 }
 
 TEST_CASE("rsl::lt") {
@@ -262,7 +263,7 @@ TEST_CASE("rsl::lt") {
 
     auto const result = rsl::lt<double>(Parameter("test", 4.3), 1.0);
     REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value 4.3 must be less than 1");
+    CHECK(result.error() == "Parameter 'test' with the value '4.3' must be less than '1'");
 }
 
 TEST_CASE("rsl::gt") {
@@ -280,7 +281,7 @@ TEST_CASE("rsl::gt") {
 
     auto const result = rsl::gt<int64_t>(Parameter("test", 1), 1);
     REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value 1 must be greater than 1");
+    CHECK(result.error() == "Parameter 'test' with the value '1' must be greater than '1'");
 }
 
 TEST_CASE("rsl::lt_eq") {
@@ -298,7 +299,8 @@ TEST_CASE("rsl::lt_eq") {
 
     auto const result = rsl::lt_eq<double>(Parameter("test", 4.3), 1.0);
     REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value 4.3 must be less than or equal to 1");
+    CHECK(result.error() ==
+          "Parameter 'test' with the value '4.3' must be less than or equal to '1'");
 }
 
 TEST_CASE("rsl::gt_eq") {
@@ -317,7 +319,7 @@ TEST_CASE("rsl::gt_eq") {
     auto const result = rsl::gt_eq<double>(Parameter("test", -4.3), 1.0);
     REQUIRE(!result);
     CHECK(result.error() ==
-          "Parameter 'test' with the value -4.3 must be greater than or equal to 1");
+          "Parameter 'test' with the value '-4.3' must be greater than or equal to '1'");
 }
 
 TEST_CASE("rsl::one_of") {
@@ -342,7 +344,7 @@ TEST_CASE("rsl::one_of") {
     auto const result =
         rsl::one_of<double>(Parameter("test", 0.0), std::vector<double>{1.0, 2.0, 3.5});
     REQUIRE(!result);
-    CHECK(result.error() == "Parameter 'test' with the value 0 is not in the set {1, 2, 3.5}");
+    CHECK(result.error() == "Parameter 'test' with the value '0' is not in the set '{1, 2, 3.5}'");
 }
 
 TEST_CASE("rsl::to_parameter_result_msg") {
