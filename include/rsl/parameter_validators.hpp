@@ -22,7 +22,7 @@ template <typename T, typename Fn>
 [[nodiscard]] auto size_compare(rclcpp::Parameter const& parameter, size_t const size,
                                 std::string const& predicate_description, Fn const& predicate)
     -> tl::expected<void, std::string> {
-    static constexpr auto format_string = "Length of parameter '{}' is {} but must be {} {}";
+    static constexpr auto format_string = "Length of parameter '{}' is '{}' but must be {} '{}'";
     switch (parameter.get_type()) {
         case rclcpp::ParameterType::PARAMETER_STRING:
             if (auto value = parameter.get_value<std::string>(); !predicate(value.size(), size))
@@ -42,7 +42,7 @@ template <typename T, typename Fn>
                            std::string const& predicate_description, Fn const& predicate)
     -> tl::expected<void, std::string> {
     if (auto const param_value = parameter.get_value<T>(); !predicate(param_value, value))
-        return tl::unexpected(fmt::format("Parameter '{}' with the value {} must be {} {}",
+        return tl::unexpected(fmt::format("Parameter '{}' with the value '{}' must be {} '{}'",
                                           parameter.get_name(), param_value, predicate_description,
                                           value));
     return {};
@@ -78,7 +78,7 @@ template <typename T>
     for (auto const& value : values)
         if (!contains(valid_values, value))
             return tl::unexpected(
-                fmt::format("Entry '{}' in parameter '{}' is not in the set {{{}}}", value,
+                fmt::format("Entry '{}' in parameter '{}' is not in the set '{{{}}}'", value,
                             parameter.get_name(), fmt::join(valid_values, ", ")));
     return {};
 }
@@ -153,7 +153,7 @@ template <typename T>
     for (auto val : param_value)
         if (val < lower || val > upper)
             return tl::unexpected(
-                fmt::format("Value {} in parameter '{}' must be within bounds [{}, {}]", val,
+                fmt::format("Value '{}' in parameter '{}' must be within bounds '[{}, {}]'", val,
                             parameter.get_name(), lower, upper));
     return {};
 }
@@ -171,7 +171,7 @@ template <typename T>
     for (auto val : param_value)
         if (val < lower)
             return tl::unexpected(
-                fmt::format("Value {} in parameter '{}' must be above lower bound of {}", val,
+                fmt::format("Value '{}' in parameter '{}' must be above lower bound of '{}'", val,
                             parameter.get_name(), lower));
     return {};
 }
@@ -189,7 +189,7 @@ template <typename T>
     for (auto val : param_value)
         if (val > upper)
             return tl::unexpected(
-                fmt::format("Value {} in parameter '{}' must be below upper bound of {}", val,
+                fmt::format("Value '{}' in parameter '{}' must be below upper bound of '{}'", val,
                             parameter.get_name(), upper));
     return {};
 }
@@ -206,7 +206,7 @@ template <typename T>
     auto const& param_value = parameter.get_value<T>();
     if (param_value < lower || param_value > upper)
         return tl::unexpected(
-            fmt::format("Parameter '{}' with the value {} must be within bounds [{}, {}]",
+            fmt::format("Parameter '{}' with the value '{}' must be within bounds '[{}, {}]'",
                         parameter.get_name(), param_value, lower, upper));
     return {};
 }
@@ -290,9 +290,9 @@ template <typename T>
     -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<T>();
     if (contains(collection, param_value)) return {};
-    return tl::unexpected(fmt::format("Parameter '{}' with the value {} is not in the set {{{}}}",
-                                      parameter.get_name(), param_value,
-                                      fmt::format("{}", fmt::join(collection, ", "))));
+    return tl::unexpected(fmt::format(
+        "Parameter '{}' with the value '{}' is not in the set '{{{}}}'", parameter.get_name(),
+        param_value, fmt::format("{}", fmt::join(collection, ", "))));
 }
 
 /**
