@@ -19,4 +19,5 @@ Read the docs [here](https://picknikrobotics.github.io/RSL/files.html).
 * [random.hpp](include/rsl/random.hpp) - Modern C++ randomness made easy
 * [static_string.hpp](include/rsl/static_string.hpp) - Static capacity string class
 * [static_vector.hpp](include/rsl/static_vector.hpp) - Static capacity vector class
+* [strong_type.hpp](include/rsl/strong_type.hpp) - Strong typedef class
 * [try.hpp](include/rsl/try.hpp) - Macro to emulatate absl::CONFIRM or operator? from Rust
