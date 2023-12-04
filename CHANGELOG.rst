@@ -2,6 +2,14 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.0 (2023-12-04)
+------------------
+* Add `rsl::StrongType`
+* Quote values in error messages
+* Make doxygen a weak dependency
+* Mark git as a test dependency
+* Contributors: Andrew, Chris Thrasher, Michael Carroll, Tyler Weaver, andrea
+
 0.2.2 (2023-03-23)
 ------------------
 * Deprecate `rsl::lower_bounds` and `rsl::upper_bounds`
