@@ -36,8 +36,8 @@ auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
  */
 template <typename RealType>
 [[nodiscard]] auto uniform_real(RealType lower, RealType upper) {
-    static_assert(std::is_floating_point_v<RealType>);
-    assert(lower < upper);
+    static_assert(std::is_floating_point_v<RealType>, "RealType must be a floating point type");
+    assert(lower < upper && "rsl::uniform_real: Lower bound be less than upper bound");
     return std::uniform_real_distribution(lower, upper)(rng());
 }
 
@@ -53,8 +53,9 @@ template <typename RealType>
  */
 template <typename IntType>
 [[nodiscard]] auto uniform_int(IntType lower, IntType upper) {
-    static_assert(std::is_integral_v<IntType>);
-    assert(lower <= upper);
+    static_assert(std::is_integral_v<IntType>, "IntType must be an integral type");
+    assert(lower <= upper &&
+           "rsl::uniform_int: Lower bound must be less than or equal to upper bound");
     return std::uniform_int_distribution(lower, upper)(rng());
 }
 

@@ -30,7 +30,8 @@ class StaticVector {
      */
     template <typename Collection>
     StaticVector(Collection const& collection) : size_(std::min(collection.size(), capacity)) {
-        assert(collection.size() <= capacity);
+        assert(collection.size() <= capacity &&
+               "rsl::StaticVector::StaticVector: Input exceeds capacity");
         std::copy(collection.cbegin(),
                   collection.cbegin() + typename Collection::difference_type(size_), data_.begin());
     }
