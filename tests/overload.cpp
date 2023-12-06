@@ -5,22 +5,14 @@
 #include <variant>
 
 TEST_CASE("rsl::Overload") {
-    enum class Type { INT, FLOAT, STRING } type = Type::INT;
+    enum class Type { INT, FLOAT, STRING };
+
     auto const overload =
-        rsl::Overload{[&type](int) { type = Type::INT; }, [&type](float) { type = Type::FLOAT; },
-                      [&type](std::string const&) { type = Type::STRING; }};
+        rsl::Overload{[](int) { return Type::INT; }, [](float) { return Type::FLOAT; },
+                      [](std::string const&) { return Type::STRING; }};
 
     auto variant = std::variant<int, float, std::string>();
-
-    variant = 12;
-    std::visit(overload, variant);
-    CHECK(type == Type::INT);
-
-    variant = 42.f;
-    std::visit(overload, variant);
-    CHECK(type == Type::FLOAT);
-
-    variant = "PickNik";
-    std::visit(overload, variant);
-    CHECK(type == Type::STRING);
+    CHECK(std::visit(overload, variant = 12) == Type::INT);
+    CHECK(std::visit(overload, variant = 42.f) == Type::FLOAT);
+    CHECK(std::visit(overload, variant = "PickNik") == Type::STRING);
 }
