@@ -41,9 +41,9 @@ jobs:
         if: matrix.compiler.name == 'clang'
         run: sudo apt update && sudo apt install clang
       - name: Configure
-        run: cmake --preset ${{ matrix.preset }} ${{ matrix.compiler.flags }}
+        run: cmake --preset ${{ matrix.preset }} ${{ matrix.compiler.flags }} -DCMAKE_INSTALL_PREFIX=install
       - name: Build
-        run: cmake --build build/${{ matrix.preset }}
+        run: cmake --build build/${{ matrix.preset }} --target install
       - name: Test
         run: ctest --test-dir build/${{ matrix.preset }} --rerun-failed --output-on-failure
       - name: Build Doxygen Site
