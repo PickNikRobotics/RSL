@@ -7,6 +7,13 @@ TEST_CASE("rsl::StrongType") {
     using StrongString =
         rsl::StrongType<std::string, struct StringStringTag>;  // For testing non-constexpr types
 
+    SECTION("Type traits") {
+        STATIC_CHECK(std::is_copy_constructible_v<StrongInt>);
+        STATIC_CHECK(std::is_copy_assignable_v<StrongInt>);
+        STATIC_CHECK(std::is_nothrow_move_constructible_v<StrongInt>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<StrongInt>);
+    }
+
     SECTION("Construction") {
         constexpr auto strong_int = StrongInt(42);
         STATIC_CHECK(strong_int.get() == 42);

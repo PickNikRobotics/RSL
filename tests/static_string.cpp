@@ -5,6 +5,13 @@
 using namespace std::literals;
 
 TEST_CASE("rsl::StaticString") {
+    SECTION("Type traits") {
+        STATIC_CHECK(std::is_copy_constructible_v<rsl::StaticString<8>>);
+        STATIC_CHECK(std::is_copy_assignable_v<rsl::StaticString<8>>);
+        STATIC_CHECK(std::is_nothrow_move_constructible_v<rsl::StaticString<8>>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<rsl::StaticString<8>>);
+    }
+
     SECTION("Construction") {
         SECTION("Default constructor") {
             auto const static_string = rsl::StaticString<10>();
