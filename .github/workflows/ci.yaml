@@ -41,7 +41,7 @@ jobs:
         if: matrix.compiler.name == 'clang'
         run: sudo apt update && sudo apt install clang
       - name: Configure
-        run: cmake --preset ${{ matrix.preset }} ${{ matrix.compiler.flags }} -DCMAKE_INSTALL_PREFIX=install
+        run: cmake --preset ${{ matrix.preset }} ${{ matrix.compiler.flags }} -DCMAKE_INSTALL_PREFIX=install -DCMAKE_VERBOSE_MAKEFILE=ON
       - name: Build
         run: cmake --build build/${{ matrix.preset }} --target install
       - name: Test
