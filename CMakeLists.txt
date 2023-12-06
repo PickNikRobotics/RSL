@@ -3,6 +3,7 @@ project(rsl VERSION 1.0.0 LANGUAGES CXX DESCRIPTION "ROS Support Library")
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(ament_cmake_ros REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(fmt REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -12,8 +13,6 @@ find_package(tl_expected REQUIRED)
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
-
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 add_library(rsl
     src/parameter_validators.cpp
@@ -49,15 +48,15 @@ install(
     RUNTIME DESTINATION bin
     INCLUDES DESTINATION include/rsl
 )
-install(
-    EXPORT rsl-targets
-    NAMESPACE rsl::
-    DESTINATION share/rsl/cmake
+
+ament_export_targets(rsl-targets HAS_LIBRARY_TARGET)
+ament_export_dependencies(
+    Eigen3
+    fmt
+    rclcpp
+    tcb_span
+    tl_expected
 )
-write_basic_package_version_file(rsl-config-version.cmake COMPATIBILITY SameMajorVersion)
-install(
-    FILES cmake/rsl-config.cmake ${PROJECT_BINARY_DIR}/rsl-config-version.cmake
-    DESTINATION share/rsl/cmake
-)
+ament_package()
 
 add_custom_target(tidy COMMAND run-clang-tidy -p ${CMAKE_BINARY_DIR})
