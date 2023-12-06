@@ -28,7 +28,8 @@ class StaticString {
      * @brief Construct from a std::string
      */
     StaticString(std::string const& string) : size_(std::min(string.size(), capacity)) {
-        assert(string.size() <= capacity);
+        assert(string.size() <= capacity &&
+               "rsl::StaticString::StaticString: Input exceeds capacity");
         std::copy(string.cbegin(), string.cbegin() + std::string::difference_type(size_),
                   data_.begin());
     }
