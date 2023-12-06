@@ -2,6 +2,12 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.1 (2023-12-06)
+------------------
+* Add more messages for assertion failures
+* Document API changes from v0 to v1
+* Contributors: Chris Thrasher
+
 1.0.0 (2023-12-04)
 ------------------
 * Add `rsl::StrongType`
