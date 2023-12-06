@@ -3,6 +3,13 @@
 #include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("rsl::StaticVector") {
+    SECTION("Type traits") {
+        STATIC_CHECK(std::is_copy_constructible_v<rsl::StaticVector<int, 8>>);
+        STATIC_CHECK(std::is_copy_assignable_v<rsl::StaticVector<int, 8>>);
+        STATIC_CHECK(std::is_nothrow_move_constructible_v<rsl::StaticVector<int, 8>>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<rsl::StaticVector<int, 8>>);
+    }
+
     SECTION("Construction") {
         SECTION("Default constructor") {
             auto const static_vector = rsl::StaticVector<int, 10>();
