@@ -32,7 +32,8 @@ target_link_libraries(rsl PUBLIC
 
 add_subdirectory(docs)
 
-if(BUILD_TESTING)
+option(RSL_BUILD_TESTING "Build tests" OFF)
+if(RSL_BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
