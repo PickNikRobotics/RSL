@@ -183,3 +183,25 @@ template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional
     typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
     return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
 }
+
+/**
+ * @brief       Tests if any of the expected args passed in has an error.
+ *
+ * @param[in]   The tl::expected<T, E> variables.  All have to use the same
+ * error type.
+ * @tparam      E The error type
+ * @tparam      Args The value types for the tl::expected<T, E> args
+ * @return      The first error found or nothing
+ * @example     maybe_error.cpp
+ */
+template <typename E, typename... Args>
+constexpr std::optional<E> maybe_error(tl::expected<Args, E>... args) {
+    auto maybe = std::optional<E>{std::nullopt};
+    (
+        [&](auto& exp) {
+            if (maybe.has_value()) return;
+            if (!exp) maybe = exp.error();
+        }(args),
+        ...);
+    return maybe;
+}

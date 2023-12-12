@@ -228,3 +228,15 @@ TEST_CASE("operator|") {
         CHECK(val == Catch::Approx(4.61538));
     }
 }
+
+TEST_CASE("rsl::maybe_error") {
+    SECTION("Error") {
+        auto const exp = tl::expected<int, double>(tl::unexpected(0.1));
+        CHECK(rsl::maybe_error(exp));
+    }
+
+    SECTION("Value") {
+        auto const exp = tl::expected<int, double>(1);
+        CHECK_FALSE(rsl::maybe_error(exp));
+    }
+}
