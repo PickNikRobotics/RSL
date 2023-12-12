@@ -123,6 +123,28 @@ template <typename T, typename E>
     return exp.has_value();
 }
 
+/**
+ * @brief Tests if any of the expected args passed in has an error.
+ *
+ * @param args tl::expected<T, E> parameter pack
+ *
+ * @tparam E    The error type
+ * @tparam Args The value types for the tl::expected<T, E> args
+ *
+ * @return The first error found or nothing
+ */
+template <typename E, typename... Args>
+[[nodiscard]] constexpr auto maybe_error(tl::expected<Args, E>... args) {
+    auto maybe = std::optional<E>();
+    (
+        [&](auto& exp) {
+            if (maybe.has_value()) return;
+            if (has_error(exp)) maybe = exp.error();
+        }(args),
+        ...);
+    return maybe;
+}
+
 template <typename>
 constexpr inline bool is_optional_impl = false;
 template <typename T>
