@@ -228,3 +228,26 @@ TEST_CASE("operator|") {
         CHECK(val == Catch::Approx(4.61538));
     }
 }
+
+TEST_CASE("rsl::maybe_error") {
+    SECTION("No error") {
+        CHECK(rsl::maybe_error(tl::expected<int, std::string>(42)) == std::nullopt);
+        CHECK(rsl::maybe_error(tl::expected<int, std::string>(1), tl::expected<int, std::string>(2),
+                               tl::expected<int, std::string>(3), tl::expected<int, std::string>(4),
+                               tl::expected<int, std::string>(5)) == std::nullopt);
+    }
+
+    SECTION("Errors") {
+        CHECK(rsl::maybe_error<std::string, int>(tl::unexpected<std::string>("oops")) ==
+              std::optional<std::string>("oops"));
+        CHECK(rsl::maybe_error(tl::expected<int, std::string>(tl::unexpect, "oops1"),
+                               tl::expected<int, std::string>(tl::unexpect, "oops2"),
+                               tl::expected<int, std::string>(tl::unexpect, "oops3")) ==
+              std::optional<std::string>("oops1"));
+        CHECK(rsl::maybe_error(tl::expected<int, std::string>(tl::unexpect, "oops1"),
+                               tl::expected<int, std::string>(1337),
+                               tl::expected<int, std::string>(tl::unexpect, "oops2"),
+                               tl::expected<int, std::string>(tl::unexpect, "oops3")) ==
+              std::optional<std::string>("oops1"));
+    }
+}
