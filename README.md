@@ -21,9 +21,3 @@ Read the docs [here](https://picknikrobotics.github.io/RSL/files.html).
 * [static_vector.hpp](include/rsl/static_vector.hpp) - Static capacity vector class
 * [strong_type.hpp](include/rsl/strong_type.hpp) - Strong typedef class
 * [try.hpp](include/rsl/try.hpp) - Macro to emulatate absl::CONFIRM or operator? from Rust
-
-## v0 -> v1 API Breaks
-
-No C++ API changes were made between version 0 and version 1, but a change to the build interface was made.
-Because we stopped using ament CMake macros, you cannot use `ament_target_dependencies` to link to RSL.
-You must instead use `target_link_libraries(... rsl::rsl)` as you would any other non-ament CMake library.
