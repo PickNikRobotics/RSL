@@ -2,6 +2,14 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.1.0 (2023-12-20)
+------------------
+* Fix `ament_target_dependencies` integration
+* Add `rsl::maybe_error`
+* Disable tests by default
+* Stop using non-standard `M_PI`
+* Contributors: Chris Thrasher
+
 1.0.1 (2023-12-06)
 ------------------
 * Add more messages for assertion failures
