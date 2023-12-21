@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(rsl-install-test)
+project(rsl-install-test CXX)
 
 if(PROJECT_IS_TOP_LEVEL)
     # Test consumption via find_package interface and ament_target_dependencies
