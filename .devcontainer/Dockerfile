@@ -66,12 +66,12 @@ ARG GID=$UID
 
 # Setup user home directory
 RUN groupadd --gid $GID $USER \
-    && useradd --uid $GID --gid $UID -m $USER --groups sudo \
+    && useradd --uid $UID --gid $GID -m $USER --groups sudo \
     && echo $USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER \
     && echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/${USER}/.profile \
     && touch /home/${USER}/.bashrc \
-    && chown -R ${GID}:${UID} /home/${USER}
+    && chown -R ${UID}:${GID} /home/${USER}
 
 # install pre-commit
 RUN python3 -m pip install -U \
