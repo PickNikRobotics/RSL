@@ -20,9 +20,10 @@ TEST_CASE("rsl::StaticString") {
 
         SECTION("Collection constructor") {
             auto const string = "Hello, world!"s;
-            auto const static_string = rsl::StaticString<14>(string);
+            constexpr int string_capacity = 14;
+            auto const static_string = rsl::StaticString<string_capacity>(string);
             CHECK(static_string.begin() != static_string.end());
-            auto const* begin = static_string.begin();
+            std::array<std::string::value_type, string_capacity>::const_iterator begin = static_string.begin();
             CHECK(*begin++ == 'H');
             CHECK(*begin++ == 'e');
             CHECK(*begin++ == 'l');

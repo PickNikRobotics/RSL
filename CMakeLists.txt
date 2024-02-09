@@ -13,6 +13,13 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
+if(MSVC)
+    # On Windows, also ensure that all .dll libraries are placed in the
+    # same build directory so they can be found by the loader (there is
+    # no rpath on Windows)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}")
+endif()
+
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 add_library(rsl
@@ -29,6 +36,17 @@ target_link_libraries(rsl PUBLIC
     tcb_span::tcb_span
     tl_expected::tl_expected
 )
+
+# There is no explicit export of symbols in the library either via
+# hand-written ***_export.h headers or generate_export_header CMake macro,
+# as the header-only functions in this library are quite limited in number,
+# it is perfectly ok to export all of them (as done in *nix) with the
+# WINDOWS_EXPORT_ALL_SYMBOLS property
+if(MSVC)
+    set_target_properties(rsl PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+    )
+endif()
 
 add_subdirectory(docs)
 
