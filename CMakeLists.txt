@@ -10,7 +10,12 @@ find_package(tcb_span REQUIRED)
 find_package(tl_expected REQUIRED)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+    if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.24.0")
+        option(CMAKE_COMPILE_WARNING_AS_ERROR "Treat compiler warnings as errors." ON)
+    else()
+        add_compile_options(-Werror)
+    endif()
 endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
