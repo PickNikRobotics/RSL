@@ -9,7 +9,8 @@ find_package(rclcpp REQUIRED)
 find_package(tcb_span REQUIRED)
 find_package(tl_expected REQUIRED)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+option(RSL_ENABLE_WARNINGS "Enable compiler warnings" OFF)
+if(RSL_ENABLE_WARNINGS AND CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
