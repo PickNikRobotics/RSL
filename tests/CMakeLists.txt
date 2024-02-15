@@ -14,8 +14,10 @@ add_executable(test-rsl
     random.cpp
     static_string.cpp
     static_vector.cpp
-    strong_type.cpp
-    try.cpp)
+    strong_type.cpp)
+if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+    target_sources(test-rsl PRIVATE try.cpp) # Requires GCC extensions
+endif()
 target_link_libraries(test-rsl PRIVATE
     rsl::rsl
     Catch2::Catch2WithMain
