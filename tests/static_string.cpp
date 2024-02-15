@@ -22,7 +22,7 @@ TEST_CASE("rsl::StaticString") {
             auto const string = "Hello, world!"s;
             auto const static_string = rsl::StaticString<14>(string);
             CHECK(static_string.begin() != static_string.end());
-            auto const* begin = static_string.begin();
+            auto begin = static_string.begin();  // NOLINT(readability-qualified-auto)
             CHECK(*begin++ == 'H');
             CHECK(*begin++ == 'e');
             CHECK(*begin++ == 'l');
