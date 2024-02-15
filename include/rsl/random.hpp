@@ -1,5 +1,7 @@
 #pragma once
 
+#include <rsl/export.hpp>
+
 #include <Eigen/Geometry>
 #include <cassert>
 #include <random>
@@ -22,7 +24,7 @@ namespace rsl {
  *
  * @return Seeded random number generator
  */
-auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
+RSL_EXPORT auto rng(std::seed_seq seed_sequence = {}) -> std::mt19937&;
 
 /**
  * @brief Get a uniform real number in a given range
@@ -63,6 +65,6 @@ template <typename IntType>
  * @brief Generate a random unit quaternion of doubles
  * @return Random unit quaternion
  */
-[[nodiscard]] auto random_unit_quaternion() -> Eigen::Quaterniond;
+[[nodiscard]] RSL_EXPORT auto random_unit_quaternion() -> Eigen::Quaterniond;
 
 }  // namespace rsl

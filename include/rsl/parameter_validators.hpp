@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rsl/algorithm.hpp>
+#include <rsl/export.hpp>
 #include <rsl/static_string.hpp>
 #include <rsl/static_vector.hpp>
 
@@ -298,7 +299,7 @@ template <typename T>
 /**
  * @brief Convert the result of a validator function into a SetParametersResult msg
  */
-[[nodiscard]] auto to_parameter_result_msg(tl::expected<void, std::string> const& result)
+[[nodiscard]] RSL_EXPORT auto to_parameter_result_msg(tl::expected<void, std::string> const& result)
     -> rcl_interfaces::msg::SetParametersResult;
 
 }  // namespace rsl

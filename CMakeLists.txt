@@ -16,13 +16,17 @@ endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
+include(GenerateExportHeader)
 add_library(rsl
     src/parameter_validators.cpp
     src/random.cpp
 )
 add_library(rsl::rsl ALIAS rsl)
 target_compile_features(rsl PUBLIC cxx_std_17)
-target_include_directories(rsl PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
+target_include_directories(rsl PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+)
 target_link_libraries(rsl PUBLIC
     Eigen3::Eigen
     fmt::fmt
@@ -30,6 +34,8 @@ target_link_libraries(rsl PUBLIC
     tcb_span::tcb_span
     tl_expected::tl_expected
 )
+set_target_properties(rsl PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
+generate_export_header(rsl EXPORT_FILE_NAME include/rsl/export.hpp)
 
 add_subdirectory(docs)
 
@@ -41,7 +47,7 @@ endif()
 include(CMakePackageConfigHelpers)
 
 install(
-    DIRECTORY include/
+    DIRECTORY include/ ${PROJECT_BINARY_DIR}/include/
     DESTINATION include/rsl
 )
 install(
