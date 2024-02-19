@@ -5,10 +5,8 @@
   <version>1.1.0</version>
   <description>ROS Support Library</description>
   <author email="maybe@tylerjw.dev">Tyler Weaver</author>
-  <author email="sebastian.jahr@picknik.ai">Sebastian Jahr</author>
   <author email="chrisjthrasher@gmail.com">Chris Thrasher</author>
   <maintainer email="maybe@tylerjw.dev">Tyler Weaver</maintainer>
-  <maintainer email="sebastian.jahr@picknik.ai">Sebastian Jahr</maintainer>
   <maintainer email="chrisjthrasher@gmail.com">Chris Thrasher</maintainer>
   <license>BSD-3-Clause</license>
 
