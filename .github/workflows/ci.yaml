@@ -13,11 +13,11 @@ jobs:
         ros_distro: [humble, rolling]
         preset: [debug, release, asan, codecov]
         compiler:
-        - { name: gcc }
-        - { name: clang, flags: -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: GCC }
+        - { name: Clang, flags: -DCMAKE_CXX_COMPILER=clang++ }
         exclude:
         - preset: codecov
-          compiler: { name: clang }
+          compiler: { name: Clang }
     runs-on: ubuntu-22.04
     container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ros_distro }}
     env:
