@@ -3,7 +3,7 @@ project(rsl VERSION 1.1.0 LANGUAGES CXX DESCRIPTION "ROS Support Library")
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Eigen3 REQUIRED)
+find_package(Eigen3 REQUIRED NO_MODULE)
 find_package(fmt REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tcb_span REQUIRED)
