@@ -1,6 +1,6 @@
 include(CMakeFindDependencyMacro)
 
-find_dependency(Eigen3)
+find_dependency(Eigen3 CONFIG)
 find_dependency(fmt)
 find_dependency(rclcpp)
 find_dependency(tcb_span)
