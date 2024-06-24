@@ -74,6 +74,6 @@ TEST_CASE("rsl::StaticString") {
 }
 
 TEST_CASE("rsl::to_string") {
-    CHECK(rsl::to_string(rsl::StaticString<0>()) == ""s);
+    CHECK(rsl::to_string(rsl::StaticString<0>()).empty());
     CHECK(rsl::to_string(rsl::StaticString<10>("happy"s)) == "happy"s);
 }

@@ -9,10 +9,12 @@
 
 using ExpectedType = tl::expected<int, std::string>;
 
-static ExpectedType check_try_macro(ExpectedType const& expected) {
+namespace {
+ExpectedType check_try_macro(ExpectedType const& expected) {
     ExpectedType::value_type value = TRY(expected);
     return ++value;
 }
+}  // namespace
 
 TEST_CASE("TRY") {
     CHECK(check_try_macro(ExpectedType(42)) == 43);
