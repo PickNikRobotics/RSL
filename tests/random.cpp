@@ -6,7 +6,9 @@
 
 #include <thread>
 
-static auto const* const rng = &rsl::rng({0, 1});
+namespace {
+auto const* const rng = &rsl::rng({0, 1});
+}
 
 TEST_CASE("rsl::rng") {
     SECTION("Repeated calls in thread yield same object") {

@@ -169,7 +169,7 @@ template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<
           typename = std::enable_if_t<std::is_invocable_v<
               Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>>>
 [[nodiscard]] constexpr auto operator|(T&& opt, Fn&& fn) {
-    return rsl::mbind(opt, fn);
+    return rsl::mbind(std::forward<T>(opt), std::forward<Fn>(fn));
 }
 
 /**

@@ -9,15 +9,14 @@
 
 using namespace std::string_literals;
 
-static constexpr auto maybe_non_zero(int in) {
-    return (in != 0) ? std::optional(in) : std::nullopt;
-}
+namespace {
+constexpr auto maybe_non_zero(int in) { return (in != 0) ? std::optional(in) : std::nullopt; }
 
-static auto maybe_lt_3_round(double in) {
+auto maybe_lt_3_round(double in) {
     return (in < 3) ? std::optional<int>(std::round(in)) : std::nullopt;
 }
 
-static auto unsafe_divide_4_by(double val) {
+auto unsafe_divide_4_by(double val) {
     if (val == 0) throw std::runtime_error("divide by zero");
     return 4.0 / val;
 }
@@ -25,16 +24,17 @@ static auto unsafe_divide_4_by(double val) {
 template <typename T>
 using Result = tl::expected<T, std::string>;
 
-static Result<double> divide(double x, double y) {
+Result<double> divide(double x, double y) {
     if (y == 0) return tl::unexpected("divide by 0"s);
     return x / y;
 }
 
-static Result<double> multiply(double x, double y) { return x * y; }
+Result<double> multiply(double x, double y) { return x * y; }
 
-static Result<double> divide_3(double x) { return divide(3, x); }
+Result<double> divide_3(double x) { return divide(3, x); }
 
-static Result<double> multiply_3(double x) { return multiply(3, x); }
+Result<double> multiply_3(double x) { return multiply(3, x); }
+}  // namespace
 
 TEST_CASE("rsl::mbind") {
     SECTION("Optional value") {
@@ -210,7 +210,7 @@ TEST_CASE("operator|") {
     auto const k = [](auto x) { return [=](auto) { return x; }; };
     auto const mul = [](auto x, auto y) { return x * y; };
     auto const bind1 = [](auto fn, auto x) { return [=](auto y) { return fn(x, y); }; };
-    auto const three = [](auto) { return int{3}; };
+    auto const three = [](auto) { return 3; };
     auto const wrap = [](auto x) { return Result<decltype(x)>{x}; };
 
     CHECK((int{5} | i) == 5);

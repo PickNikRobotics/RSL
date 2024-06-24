@@ -5,7 +5,7 @@
 #include <variant>
 
 TEST_CASE("rsl::Overload") {
-    enum class Type { INT, FLOAT, STRING };
+    enum class Type : std::uint8_t { INT, FLOAT, STRING };
 
     auto const overload =
         rsl::Overload{[](int) { return Type::INT; }, [](float) { return Type::FLOAT; },
