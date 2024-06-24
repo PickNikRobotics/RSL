@@ -1,6 +1,6 @@
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-find_package(Catch2 3.5.0 REQUIRED)
+find_package(Catch2 3.6.0 REQUIRED)
 find_package(range-v3 REQUIRED)
 
 # Test library
