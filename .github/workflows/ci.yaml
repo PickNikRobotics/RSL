@@ -9,6 +9,7 @@ jobs:
   cmake:
     name: cmake (${{ matrix.ros_distro }}, ${{ matrix.preset }}, ${{ matrix.compiler.name }})
     strategy:
+      fail-fast: false
       matrix:
         ros_distro: [humble, rolling]
         preset: [debug, release, asan, codecov]
