@@ -22,7 +22,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v5
       - name: Source ROS
         run: |
           . /opt/ros/rolling/setup.sh
@@ -32,9 +32,9 @@ jobs:
       - name: Build Doxygen Site
         run: cmake --build build --target docs
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: build/docs/html
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
