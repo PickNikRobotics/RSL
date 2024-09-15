@@ -14,9 +14,9 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     && apt-get install -q -y --no-install-recommends \
     build-essential \
     ccache \
-    clang-14 \
-    clang-format-14 \
-    clang-tidy-14 \
+    clang-17 \
+    clang-format-17 \
+    clang-tidy-17 \
     cmake \
     curl \
     git \
@@ -82,7 +82,7 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     apt-get update && apt-get upgrade -y \
     && apt-get install -q -y --no-install-recommends \
     gdb \
-    lldb-14 \
+    lldb-17 \
     && rm -rf /var/lib/apt/lists/*
 
 USER $USER
