@@ -2,6 +2,30 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Remove devcontainer
+* Fix new clang-tidy warnings
+* Update Catch2
+* Ensure FindEigen3.cmake is not used (`#126 <https://github.com/PickNikRobotics/RSL/issues/126>`_)
+* Eigen: Add NO_MODULE to find_package (`#125 <https://github.com/PickNikRobotics/RSL/issues/125>`_)
+  Work around RHEL 8 failure due to a faulty FindEigen3.cmake module being found
+* Hide symbols from shared libraries by default and support DLL creation
+* Fix static_string.cpp compilation with MSVC standard library
+  std::array's iterator is a pointer in libc++ and libstdc++ so
+  `const auto*` works fine. However the array iterator is not a
+  pointer on MSVC so compilation fails. Removing the asterisk still
+  results in a pointer type being used but causes a clang-tidy check
+  to fail so we have to disable that.
+* Disable TRY macro tests on MSVC
+* Disable compiler warnings by default
+  Unconditionally enabling -Werror is a heavy-handed approach and not
+  ideal when shipping code to be used by many third parties. In fact
+  it's even better to disable warnings by default since compiler
+  warnings are not hard requirements. They're merely a development
+  tool that developers should opt into.
+* Contributors: Chris Thrasher, Christoph Fröhlich, Griswald Brooks, mosfet80
+
 1.1.0 (2023-12-20)
 ------------------
 * Fix `ament_target_dependencies` integration
