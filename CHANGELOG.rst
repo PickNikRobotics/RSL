@@ -2,8 +2,8 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.2.0 (2025-06-11)
+------------------
 * Remove devcontainer
 * Fix new clang-tidy warnings
 * Update Catch2
