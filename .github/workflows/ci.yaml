@@ -42,7 +42,7 @@ jobs:
           restore-keys: |
             ccache-cmake-${{ matrix.ros_distro }}-${{ matrix.preset }}-${{ github.sha }}
             ccache-cmake-${{ matrix.ros_distro }}-${{ matrix.preset }}
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y lld ccache
@@ -50,6 +50,11 @@ jobs:
         run: |
           . /opt/ros/${{ matrix.ros_distro }}/setup.sh
           echo "$(env)" >> $GITHUB_ENV
+      - name: Install ROS dependencies
+        run: |
+          sudo apt update
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y
       - name: Install Clang
         if: matrix.compiler.name == 'Clang'
         run: sudo apt update && sudo apt install clang
