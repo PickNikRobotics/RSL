@@ -20,8 +20,8 @@ namespace rsl {
  * @return Return type of fn
  */
 template <typename T, typename Fn>
-[[nodiscard]] constexpr auto mbind(std::optional<T> const& opt, Fn fn)
-    -> std::invoke_result_t<Fn, T> {
+[[nodiscard]] constexpr auto mbind(std::optional<T> const& opt,
+                                   Fn fn) -> std::invoke_result_t<Fn, T> {
     static_assert(std::is_convertible_v<std::nullopt_t, std::invoke_result_t<Fn, T>>,
                   "Fn must return a std::optional");
     if (opt) return fn(opt.value());
@@ -41,8 +41,8 @@ template <typename T, typename Fn>
  * @return Return type of the function
  */
 template <typename T, typename E, typename Fn>
-[[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp, Fn fn)
-    -> std::invoke_result_t<Fn, T> {
+[[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp,
+                                   Fn fn) -> std::invoke_result_t<Fn, T> {
     if (exp) return fn(exp.value());
     return tl::unexpected(exp.error());
 }
