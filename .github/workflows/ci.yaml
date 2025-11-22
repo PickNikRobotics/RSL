@@ -88,7 +88,7 @@ jobs:
           restore-keys: |
             ccache-ros-${{ matrix.ros_distro }}-${{ github.sha }}
             ccache-ros-${{ matrix.ros_distro }}
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - uses: ros-tooling/action-ros-ci@0.4.5
         with:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ros_distro }}
