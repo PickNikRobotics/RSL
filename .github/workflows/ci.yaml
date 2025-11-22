@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y binutils build-essential
+          sudo apt install -y lld
       - name: Source ROS
         run: |
           . /opt/ros/${{ matrix.ros_distro }}/setup.sh
@@ -93,6 +93,10 @@ jobs:
           restore-keys: |
             ccache-ros-${{ matrix.ros_distro }}-${{ github.sha }}
             ccache-ros-${{ matrix.ros_distro }}
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y lld
       - uses: ros-tooling/action-ros-ci@0.4.5
         with:
           package-name: rsl
