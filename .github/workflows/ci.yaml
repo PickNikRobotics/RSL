@@ -35,7 +35,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v6
       - name: Cache ccache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-cmake-${{ matrix.ros_distro }}-${{ matrix.preset }}-${{ github.sha }}-${{ github.run_id }}
@@ -91,7 +91,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v6
       - name: Cache ccache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-ros-${{ matrix.ros_distro }}-${{ github.sha }}-${{ github.run_id }}
