@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   pull_request:
   push:
+    branches:
+      - main
 
 jobs:
   cmake:
@@ -11,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ros_distro: [humble, rolling]
+        ros_distro: [humble, jazzy, kilted, rolling]
         preset: [debug, release, asan, codecov]
         compiler:
         - { name: GCC }
@@ -21,8 +23,12 @@ jobs:
           compiler: { name: Clang }
         - preset: codecov
           ros_distro: humble
-    runs-on: ubuntu-22.04
-    container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ros_distro }}
+        - preset: codecov
+          ros_distro: jazzy
+        - preset: codecov
+          ros_distro: kilted
+    runs-on: ubuntu-latest
+    container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
@@ -36,12 +42,21 @@ jobs:
           restore-keys: |
             ccache-cmake-${{ matrix.ros_distro }}-${{ matrix.preset }}-${{ github.sha }}
             ccache-cmake-${{ matrix.ros_distro }}-${{ matrix.preset }}
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y lld ccache
       - name: Source ROS
         run: |
           . /opt/ros/${{ matrix.ros_distro }}/setup.sh
           echo "$(env)" >> $GITHUB_ENV
+      - name: Install ROS dependencies
+        run: |
+          sudo apt update
+          rosdep update
+          rosdep install --from-paths . --ignore-src -r -y
       - name: Install Clang
-        if: matrix.compiler.name == 'clang'
+        if: matrix.compiler.name == 'Clang'
         run: sudo apt update && sudo apt install clang
       - name: Configure
         run: cmake --preset ${{ matrix.preset }} ${{ matrix.compiler.flags }} -DCMAKE_INSTALL_PREFIX=install -DCMAKE_VERBOSE_MAKEFILE=ON
@@ -65,10 +80,11 @@ jobs:
 
   ros:
     strategy:
+      fail-fast: false
       matrix:
-        ros_distro: [humble, rolling]
-    runs-on: ubuntu-22.04
-    container: ghcr.io/picknikrobotics/rsl:upstream-${{ matrix.ros_distro }}
+        ros_distro: [humble, jazzy, kilted, rolling]
+    runs-on: ubuntu-latest
+    container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
@@ -82,7 +98,11 @@ jobs:
           restore-keys: |
             ccache-ros-${{ matrix.ros_distro }}-${{ github.sha }}
             ccache-ros-${{ matrix.ros_distro }}
-      - uses: ros-tooling/action-ros-ci@v0.3
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y lld ccache
+      - uses: ros-tooling/action-ros-ci@0.4.5
         with:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ros_distro }}
