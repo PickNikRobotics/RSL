@@ -30,7 +30,7 @@ class StrongType {
     /**
      * @brief Get const reference to underlying value
      */
-    [[nodiscard]] constexpr const T& get() const { return value_; }
+    [[nodiscard]] constexpr T const& get() const { return value_; }
 
     /**
      * @brief Explicit conversion to underlying type
