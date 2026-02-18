@@ -18,7 +18,7 @@
   <depend>fmt</depend>
   <depend>rclcpp</depend>
   <depend>tcb_span</depend>
-  <depend>tl_expected</depend>
+  <depend>libexpected-dev</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>clang-tidy</test_depend>

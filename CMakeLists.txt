@@ -7,7 +7,7 @@ find_package(Eigen3 REQUIRED CONFIG)
 find_package(fmt REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tcb_span REQUIRED)
-find_package(tl_expected REQUIRED)
+find_package(tl-expected REQUIRED)
 
 option(RSL_ENABLE_WARNINGS "Enable compiler warnings" OFF)
 if(RSL_ENABLE_WARNINGS AND CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
@@ -32,7 +32,7 @@ target_link_libraries(rsl PUBLIC
     fmt::fmt
     rclcpp::rclcpp
     tcb_span::tcb_span
-    tl_expected::tl_expected
+    tl::expected
 )
 set_target_properties(rsl PROPERTIES CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 generate_export_header(rsl EXPORT_FILE_NAME include/rsl/export.hpp)
