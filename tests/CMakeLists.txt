@@ -23,7 +23,10 @@ target_link_libraries(test-rsl PRIVATE
     Catch2::Catch2WithMain
     range-v3::range-v3
 )
-catch_discover_tests(test-rsl)
+# Discover tests at CTest runtime (not build time) to avoid Windows CI
+# failures (0xc0000135 / missing runtime DLLs) when Catch2 executes test-rsl
+# during project build.
+catch_discover_tests(test-rsl DISCOVERY_MODE PRE_TEST)
 
 # Test install interface
 add_test(NAME "Install RSL" COMMAND
