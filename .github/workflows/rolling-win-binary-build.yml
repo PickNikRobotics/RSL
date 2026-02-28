@@ -23,4 +23,4 @@ jobs:
       ros_distro: rolling
       pixi_dependencies: jinja2 compilers cpp-expected
       ninja_packages: rsl
-      target_cmake_args: -DBUILD_TESTING=OFF
+      target_cmake_args: -DBUILD_TESTING=OFF -DRSL_BUILD_TESTING=ON

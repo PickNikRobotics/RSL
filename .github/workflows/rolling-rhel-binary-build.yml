@@ -20,3 +20,4 @@ jobs:
     with:
       ros_distro: ${{ matrix.ROS_DISTRO }}
       ref_for_scheduled_build: main
+      target_cmake_args: -DRSL_BUILD_TESTING=ON
