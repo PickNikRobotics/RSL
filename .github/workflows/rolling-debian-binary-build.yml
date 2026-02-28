@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   debian_binary_build:
-    uses: ros-controls/ros2_control_ci/.github/workflows/reusable-debian-build.yml@master
+    uses: ros-controls/ros2_control_ci/.github/workflows/reusable-debian-build.yml@cmakeargs
     strategy:
       fail-fast: false
       matrix:

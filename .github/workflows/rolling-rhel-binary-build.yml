@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   rhel_binary_build:
-    uses: ros-controls/ros2_control_ci/.github/workflows/reusable-rhel-binary-build.yml@master
+    uses: ros-controls/ros2_control_ci/.github/workflows/reusable-rhel-binary-build.yml@cmakeargs
     strategy:
       fail-fast: false
       matrix:
