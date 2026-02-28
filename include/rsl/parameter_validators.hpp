@@ -26,6 +26,14 @@ template <typename T>
     return fmt::format("{}", value);
 }
 
+template <typename T>
+[[nodiscard]] auto join_stringified(std::vector<T> const& values) -> std::string {
+    std::vector<std::string> tokens;
+    tokens.reserve(values.size());
+    for (auto const& value : values) tokens.push_back(stringify(value));
+    return fmt::format("{}", fmt::join(tokens, ", "));
+}
+
 template <typename T, typename Fn>
 [[nodiscard]] auto size_compare(rclcpp::Parameter const& parameter, size_t const size,
                                 std::string const& predicate_description,
@@ -302,7 +310,7 @@ template <typename T>
     if (contains(collection, param_value)) return {};
     return tl::unexpected(fmt::format(
         "Parameter '{}' with the value '{}' is not in the set '{{{}}}'", parameter.get_name(),
-        param_value, fmt::format("{}", fmt::join(collection, ", "))));
+        detail::stringify(param_value), detail::join_stringified(collection)));
 }
 
 /**
