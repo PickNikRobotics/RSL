@@ -17,8 +17,8 @@
   <depend>eigen</depend>
   <depend>fmt</depend>
   <depend>rclcpp</depend>
+  <depend>rcpputils</depend>
   <depend>tcb_span</depend>
-  <depend>tl_expected</depend>
 
   <test_depend>ament_cmake_ros</test_depend>
   <test_depend>clang-tidy</test_depend>
