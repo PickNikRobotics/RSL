@@ -10,6 +10,7 @@
 #include <tl_expected/expected.hpp>
 
 #include <fmt/ranges.h>
+#include <type_traits>
 
 namespace rsl {
 
@@ -19,6 +20,20 @@ namespace rsl {
  * @cond DETAIL
  */
 namespace detail {
+template <typename T>
+[[nodiscard]] auto stringify(T const& value) -> std::string {
+    if constexpr (std::is_floating_point_v<T>) return fmt::format("{:g}", value);
+    return fmt::format("{}", value);
+}
+
+template <typename T>
+[[nodiscard]] auto join_stringified(std::vector<T> const& values) -> std::string {
+    std::vector<std::string> tokens;
+    tokens.reserve(values.size());
+    for (auto const& value : values) tokens.push_back(stringify(value));
+    return fmt::format("{}", fmt::join(tokens, ", "));
+}
+
 template <typename T, typename Fn>
 [[nodiscard]] auto size_compare(rclcpp::Parameter const& parameter, size_t const size,
                                 std::string const& predicate_description,
@@ -44,8 +59,8 @@ template <typename T, typename Fn>
                            Fn const& predicate) -> tl::expected<void, std::string> {
     if (auto const param_value = parameter.get_value<T>(); !predicate(param_value, value))
         return tl::unexpected(fmt::format("Parameter '{}' with the value '{}' must be {} '{}'",
-                                          parameter.get_name(), param_value, predicate_description,
-                                          value));
+                                          parameter.get_name(), stringify(param_value),
+                                          predicate_description, stringify(value)));
     return {};
 }
 }  // namespace detail
@@ -154,8 +169,9 @@ template <typename T>
     for (auto val : param_value)
         if (val < lower || val > upper)
             return tl::unexpected(
-                fmt::format("Value '{}' in parameter '{}' must be within bounds '[{}, {}]'", val,
-                            parameter.get_name(), lower, upper));
+                fmt::format("Value '{}' in parameter '{}' must be within bounds '[{}, {}]'",
+                            detail::stringify(val), parameter.get_name(), detail::stringify(lower),
+                            detail::stringify(upper)));
     return {};
 }
 
@@ -171,9 +187,9 @@ template <typename T>
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val < lower)
-            return tl::unexpected(
-                fmt::format("Value '{}' in parameter '{}' must be above lower bound of '{}'", val,
-                            parameter.get_name(), lower));
+            return tl::unexpected(fmt::format(
+                "Value '{}' in parameter '{}' must be above lower bound of '{}'",
+                detail::stringify(val), parameter.get_name(), detail::stringify(lower)));
     return {};
 }
 
@@ -189,9 +205,9 @@ template <typename T>
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val > upper)
-            return tl::unexpected(
-                fmt::format("Value '{}' in parameter '{}' must be below upper bound of '{}'", val,
-                            parameter.get_name(), upper));
+            return tl::unexpected(fmt::format(
+                "Value '{}' in parameter '{}' must be below upper bound of '{}'",
+                detail::stringify(val), parameter.get_name(), detail::stringify(upper)));
     return {};
 }
 
@@ -208,7 +224,8 @@ template <typename T>
     if (param_value < lower || param_value > upper)
         return tl::unexpected(
             fmt::format("Parameter '{}' with the value '{}' must be within bounds '[{}, {}]'",
-                        parameter.get_name(), param_value, lower, upper));
+                        parameter.get_name(), detail::stringify(param_value),
+                        detail::stringify(lower), detail::stringify(upper)));
     return {};
 }
 
@@ -293,7 +310,7 @@ template <typename T>
     if (contains(collection, param_value)) return {};
     return tl::unexpected(fmt::format(
         "Parameter '{}' with the value '{}' is not in the set '{{{}}}'", parameter.get_name(),
-        param_value, fmt::format("{}", fmt::join(collection, ", "))));
+        detail::stringify(param_value), detail::join_stringified(collection)));
 }
 
 /**
