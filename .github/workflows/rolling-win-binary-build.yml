@@ -21,6 +21,6 @@ jobs:
     uses: ros-controls/ros2_control_ci/.github/workflows/reusable-ros-tooling-win-build.yml@master
     with:
       ros_distro: rolling
-      pixi_dependencies: jinja2 compilers cpp-expected
+      pixi_dependencies: jinja2 compilers cpp-expected range-v3
       ninja_packages: rsl
-      target_cmake_args: -DBUILD_TESTING=OFF
+      target_cmake_args: -DRSL_BUILD_TESTING=ON

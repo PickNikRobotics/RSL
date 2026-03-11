@@ -106,6 +106,7 @@ jobs:
         with:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ros_distro }}
+          extra-cmake-args: -DRSL_BUILD_TESTING=ON
           colcon-defaults: |
             {
               "build": {
