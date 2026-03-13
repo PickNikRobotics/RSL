@@ -2,8 +2,8 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.0 (2026-03-13)
+------------------
 * Migrate tl_expected to libexpected-dev system library (`#159 <https://github.com/PickNikRobotics/RSL/issues/159>`_)
 * Bump cmake version (`#154 <https://github.com/PickNikRobotics/RSL/issues/154>`_)
 * Fix removed ament_target_dependencies (`#153 <https://github.com/PickNikRobotics/RSL/issues/153>`_)
