@@ -2,6 +2,14 @@
 Changelog for package rsl
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Migrate tl_expected to libexpected-dev system library (`#159 <https://github.com/PickNikRobotics/RSL/issues/159>`_)
+* Bump cmake version (`#154 <https://github.com/PickNikRobotics/RSL/issues/154>`_)
+* Fix removed ament_target_dependencies (`#153 <https://github.com/PickNikRobotics/RSL/issues/153>`_)
+* Update maintainers for GBP release team (`#143 <https://github.com/PickNikRobotics/RSL/issues/143>`_)
+* Contributors: Christoph Fröhlich, Nathan Brooks, Tamaki Nishino
+
 1.2.0 (2025-06-11)
 ------------------
 * Remove devcontainer
