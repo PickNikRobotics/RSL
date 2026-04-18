@@ -102,7 +102,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y lld ccache
-      - uses: ros-tooling/action-ros-ci@0.4.5
+      - uses: ros-tooling/action-ros-ci@0.4.6
         with:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ros_distro }}
