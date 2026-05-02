@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ros_distro: [humble, jazzy, kilted, rolling]
+        ros_distro: [humble, jazzy, kilted, lyrical, rolling]
         preset: [debug, release, asan, codecov]
         compiler:
         - { name: GCC }
@@ -27,6 +27,8 @@ jobs:
           ros_distro: jazzy
         - preset: codecov
           ros_distro: kilted
+        - preset: codecov
+          ros_distro: lyrical
     runs-on: ubuntu-latest
     container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu
     env:
@@ -82,7 +84,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ros_distro: [humble, jazzy, kilted, rolling]
+        ros_distro: [humble, jazzy, kilted, lyrical, rolling]
     runs-on: ubuntu-latest
     container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu
     env:
