@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ros_distro: [humble, jazzy, kilted, rolling]
+        ros_distro: [humble, jazzy, kilted, lyrical, rolling]
         preset: [debug, release, asan, codecov]
         compiler:
         - { name: GCC }
@@ -27,8 +27,10 @@ jobs:
           ros_distro: jazzy
         - preset: codecov
           ros_distro: kilted
+        - preset: codecov
+          ros_distro: lyrical
     runs-on: ubuntu-latest
-    container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu
+    container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu-testing
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
@@ -82,9 +84,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ros_distro: [humble, jazzy, kilted, rolling]
+        ros_distro: [humble, jazzy, kilted, lyrical, rolling]
     runs-on: ubuntu-latest
-    container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu
+    container: ghcr.io/ros-controls/ros:${{ matrix.ros_distro }}-ubuntu-testing
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
@@ -102,7 +104,9 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y lld ccache
-      - uses: ros-tooling/action-ros-ci@0.4.6
+
+        # TODO(christophfroehlich): switch bag to latest tag after https://github.com/ros-tooling/action-ros-ci/pull/1029 is merged
+      - uses: ros-tooling/action-ros-ci@christophebedard/lyrical
         with:
           package-name: rsl
           target-ros2-distro: ${{ matrix.ros_distro }}

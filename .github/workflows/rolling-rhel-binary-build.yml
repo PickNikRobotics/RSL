@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ROS_DISTRO: [humble, jazzy, kilted, rolling]
+        ROS_DISTRO: [humble, jazzy, kilted, lyrical, rolling]
     with:
       ros_distro: ${{ matrix.ROS_DISTRO }}
       ref_for_scheduled_build: main
