@@ -27,7 +27,7 @@ class Queue {
      * @return Queue size
      */
     [[nodiscard]] auto size() const noexcept {
-        auto const lock = std::lock_guard(mutex_);
+        auto const lock = std::scoped_lock(mutex_);
         return queue_.size();
     }
 
@@ -36,7 +36,7 @@ class Queue {
      * @return True if the queue is empty, otherwise false
      */
     [[nodiscard]] auto empty() const noexcept {
-        auto const lock = std::lock_guard(mutex_);
+        auto const lock = std::scoped_lock(mutex_);
         return queue_.empty();
     }
 
@@ -45,7 +45,7 @@ class Queue {
      * @param value Data to push into the queue
      */
     void push(T value) noexcept {
-        auto const lock = std::lock_guard(mutex_);
+        auto const lock = std::scoped_lock(mutex_);
         queue_.push(std::move(value));
         cv_.notify_one();
     }
@@ -54,7 +54,7 @@ class Queue {
      * @brief Clear the queue
      */
     void clear() noexcept {
-        auto const lock = std::lock_guard(mutex_);
+        auto const lock = std::scoped_lock(mutex_);
 
         // Swap queue with an empty queue of the same type to ensure queue_ is left in a
         // default-constructed state
