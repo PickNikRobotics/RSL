@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_QUEUE_HPP_
+#define RSL_QUEUE_HPP_
 
 #include <chrono>
 #include <condition_variable>
@@ -77,3 +78,5 @@ class Queue {
     }
 };
 }  // namespace rsl
+
+#endif  // RSL_QUEUE_HPP_

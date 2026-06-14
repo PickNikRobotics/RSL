@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_STATIC_STRING_HPP_
+#define RSL_STATIC_STRING_HPP_
 
 #include <array>
 #include <cassert>
@@ -58,3 +59,5 @@ template <size_t capacity>
 }
 
 }  // namespace rsl
+
+#endif  // RSL_STATIC_STRING_HPP_

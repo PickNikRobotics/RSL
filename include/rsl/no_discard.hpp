@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_NO_DISCARD_HPP_
+#define RSL_NO_DISCARD_HPP_
 
 #include <utility>
 
@@ -26,3 +27,5 @@ class NoDiscard {
 };
 
 }  // namespace rsl
+
+#endif  // RSL_NO_DISCARD_HPP_
