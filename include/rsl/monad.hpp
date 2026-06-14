@@ -166,6 +166,7 @@ constexpr inline bool is_optional = is_optional_impl<std::remove_cv_t<std::remov
  *
  * @return Return type of f
  */
+// NOLINTNEXTLINE(modernize-use-constraints): library targets C++17 (no requires clauses)
 template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<T>>,
           typename = std::enable_if_t<std::is_invocable_v<
               Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>>>
@@ -201,6 +202,7 @@ template <typename T, typename E, typename Fn>
  *
  * @return Return the result of invoking the function on val
  */
+// NOLINTNEXTLINE(modernize-use-constraints): library targets C++17 (no requires clauses)
 template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional<T>>>
 [[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) ->
     typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
