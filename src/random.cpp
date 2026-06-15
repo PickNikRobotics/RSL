@@ -13,12 +13,12 @@ namespace rsl {
 
 namespace {
 
-constexpr auto kPiFallback = 3.141592653589793238462643383279502884;
+constexpr auto k_pi_fallback = 3.141592653589793238462643383279502884;
 
 #if defined(__cpp_lib_math_constants) && (__cpp_lib_math_constants >= 201907L)
-constexpr auto kPi = std::numbers::pi_v<double>;
+constexpr auto k_pi = std::numbers::pi_v<double>;
 #else
-constexpr auto kPi = kPiFallback;
+constexpr auto k_pi = k_pi_fallback;
 #endif
 
 }  // namespace
@@ -49,8 +49,8 @@ auto random_unit_quaternion() -> Eigen::Quaterniond {
     auto const x0 = uniform_real(0., 1.);
     auto const r1 = std::sqrt(1 - x0);
     auto const r2 = std::sqrt(x0);
-    auto const t1 = uniform_real(0., 2 * kPi);
-    auto const t2 = uniform_real(0., 2 * kPi);
+    auto const t1 = uniform_real(0., 2 * k_pi);
+    auto const t2 = uniform_real(0., 2 * k_pi);
     auto const x = r1 * std::sin(t1);
     auto const y = r1 * std::cos(t1);
     auto const z = r2 * std::sin(t2);
