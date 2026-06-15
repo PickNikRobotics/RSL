@@ -13,12 +13,10 @@ namespace rsl {
 
 namespace {
 
-constexpr auto k_pi_fallback = 3.141592653589793238462643383279502884;
-
 #if defined(__cpp_lib_math_constants) && (__cpp_lib_math_constants >= 201907L)
 constexpr auto k_pi = std::numbers::pi_v<double>;
 #else
-constexpr auto k_pi = k_pi_fallback;
+constexpr auto k_pi = 3.141592653589793238462643383279502884;
 #endif
 
 }  // namespace
