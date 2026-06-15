@@ -3,6 +3,9 @@
 
 #include <tl/expected.hpp>
 
+#if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
+#include <concepts>
+#endif
 #include <optional>
 
 namespace rsl {
@@ -166,13 +169,21 @@ constexpr inline bool is_optional = is_optional_impl<std::remove_cv_t<std::remov
  *
  * @return Return type of f
  */
-// NOLINTNEXTLINE(modernize-use-constraints): library targets C++17 (no requires clauses)
+#if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
+template <typename T, typename Fn>
+    requires(rsl::is_optional<T> &&
+             std::invocable<Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>)
+[[nodiscard]] constexpr auto operator|(T&& opt, Fn&& fn) {
+    return rsl::mbind(std::forward<T>(opt), std::forward<Fn>(fn));
+}
+#else
 template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<T>>,
           typename = std::enable_if_t<std::is_invocable_v<
               Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>>>
 [[nodiscard]] constexpr auto operator|(T&& opt, Fn&& fn) {
     return rsl::mbind(std::forward<T>(opt), std::forward<Fn>(fn));
 }
+#endif
 
 /**
  * @brief Overload of the | operator as bind
@@ -202,11 +213,18 @@ template <typename T, typename E, typename Fn>
  *
  * @return Return the result of invoking the function on val
  */
-// NOLINTNEXTLINE(modernize-use-constraints): library targets C++17 (no requires clauses)
+#if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
+template <typename T, typename Fn>
+    requires(!rsl::is_optional<T> && std::invocable<Fn, T>)
+[[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) -> std::invoke_result_t<Fn, T> {
+    return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
+}
+#else
 template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional<T>>>
 [[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) ->
     typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
     return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
 }
+#endif
 
 #endif  // RSL_MONAD_HPP_
