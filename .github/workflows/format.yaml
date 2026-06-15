@@ -12,6 +12,7 @@ jobs:
     name: pre-commit (${{ matrix.ubuntu-version }})
     runs-on: ubuntu-${{ matrix.ubuntu-version }}
     strategy:
+      fail-fast: false
       matrix:
         ubuntu-version: [24.04, 26.04]
     steps:
