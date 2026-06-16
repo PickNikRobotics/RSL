@@ -156,6 +156,13 @@ constexpr inline bool is_optional_impl<std::optional<T>> = true;
 template <typename T>
 constexpr inline bool is_optional = is_optional_impl<std::remove_cv_t<std::remove_reference_t<T>>>;
 
+template <typename>
+constexpr inline bool is_expected_impl = false;
+template <typename T, typename E>
+constexpr inline bool is_expected_impl<tl::expected<T, E>> = true;
+template <typename T>
+constexpr inline bool is_expected = is_expected_impl<std::remove_cv_t<std::remove_reference_t<T>>>;
+
 }  // namespace rsl
 
 /**
@@ -214,12 +221,13 @@ template <typename T, typename E, typename Fn>
  */
 #if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
 template <typename T, typename Fn>
-    requires(!rsl::is_optional<T>)
+    requires(!rsl::is_optional<T> && !rsl::is_expected<T> && std::invocable<Fn, T>)
 [[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) {
     return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
 }
 #else
-template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional<T>>>
+template <typename T, typename Fn,
+          typename = std::enable_if_t<!rsl::is_optional<T> && !rsl::is_expected<T>>>
 [[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) ->
     typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
     return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
