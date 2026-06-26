@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_RANDOM_HPP
+#define RSL_RANDOM_HPP
 
 #include <rsl/export.hpp>
 
@@ -68,3 +69,5 @@ template <typename IntType>
 [[nodiscard]] RSL_EXPORT auto random_unit_quaternion() -> Eigen::Quaterniond;
 
 }  // namespace rsl
+
+#endif  // RSL_RANDOM_HPP

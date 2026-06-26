@@ -30,6 +30,7 @@ auto rng(std::seed_seq seed_sequence) -> std::mt19937& {
 }
 
 auto random_unit_quaternion() -> Eigen::Quaterniond {
+    // NOLINTNEXTLINE(modernize-use-std-numbers): RSL is documented as a C++17 library.
     static constexpr auto pi = 3.1415926535897932385;
 
     // From "Uniform Random Rotations", Ken Shoemake, Graphics Gems III, pg. 124-132

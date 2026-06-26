@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_STATIC_VECTOR_HPP
+#define RSL_STATIC_VECTOR_HPP
 
 #include <tcb_span/span.hpp>
 
@@ -82,3 +83,5 @@ template <typename T, size_t capacity>
 }
 
 }  // namespace rsl
+
+#endif  // RSL_STATIC_VECTOR_HPP
