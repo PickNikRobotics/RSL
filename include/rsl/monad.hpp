@@ -1,7 +1,11 @@
-#pragma once
+#ifndef RSL_MONAD_HPP_
+#define RSL_MONAD_HPP_
 
 #include <tl/expected.hpp>
 
+#if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
+#include <concepts>
+#endif
 #include <optional>
 
 namespace rsl {
@@ -20,8 +24,8 @@ namespace rsl {
  * @return Return type of fn
  */
 template <typename T, typename Fn>
-[[nodiscard]] constexpr auto mbind(std::optional<T> const& opt,
-                                   Fn fn) -> std::invoke_result_t<Fn, T> {
+[[nodiscard]] constexpr auto mbind(std::optional<T> const& opt, Fn fn)
+    -> std::invoke_result_t<Fn, T> {
     static_assert(std::is_convertible_v<std::nullopt_t, std::invoke_result_t<Fn, T>>,
                   "Fn must return a std::optional");
     if (opt) return fn(opt.value());
@@ -41,8 +45,8 @@ template <typename T, typename Fn>
  * @return Return type of the function
  */
 template <typename T, typename E, typename Fn>
-[[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp,
-                                   Fn fn) -> std::invoke_result_t<Fn, T> {
+[[nodiscard]] constexpr auto mbind(tl::expected<T, E> const& exp, Fn fn)
+    -> std::invoke_result_t<Fn, T> {
     if (exp) return fn(exp.value());
     return tl::unexpected(exp.error());
 }
@@ -152,6 +156,13 @@ constexpr inline bool is_optional_impl<std::optional<T>> = true;
 template <typename T>
 constexpr inline bool is_optional = is_optional_impl<std::remove_cv_t<std::remove_reference_t<T>>>;
 
+template <typename>
+constexpr inline bool is_expected_impl = false;
+template <typename T, typename E>
+constexpr inline bool is_expected_impl<tl::expected<T, E>> = true;
+template <typename T>
+constexpr inline bool is_expected = is_expected_impl<std::remove_cv_t<std::remove_reference_t<T>>>;
+
 }  // namespace rsl
 
 /**
@@ -165,12 +176,20 @@ constexpr inline bool is_optional = is_optional_impl<std::remove_cv_t<std::remov
  *
  * @return Return type of f
  */
+#if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
+template <typename T, typename Fn>
+    requires(rsl::is_optional<T>)
+[[nodiscard]] constexpr auto operator|(T&& opt, Fn&& fn) {
+    return rsl::mbind(std::forward<T>(opt), std::forward<Fn>(fn));
+}
+#else
 template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<T>>,
           typename = std::enable_if_t<std::is_invocable_v<
               Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>>>
 [[nodiscard]] constexpr auto operator|(T&& opt, Fn&& fn) {
     return rsl::mbind(std::forward<T>(opt), std::forward<Fn>(fn));
 }
+#endif
 
 /**
  * @brief Overload of the | operator as bind
@@ -200,8 +219,19 @@ template <typename T, typename E, typename Fn>
  *
  * @return Return the result of invoking the function on val
  */
-template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional<T>>>
+#if defined(__cpp_concepts) && (__cpp_concepts >= 201907L)
+template <typename T, typename Fn>
+    requires(!rsl::is_optional<T> && !rsl::is_expected<T> && std::invocable<Fn, T>)
+[[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) {
+    return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
+}
+#else
+template <typename T, typename Fn,
+          typename = std::enable_if_t<!rsl::is_optional<T> && !rsl::is_expected<T>>>
 [[nodiscard]] constexpr auto operator|(T&& val, Fn&& fn) ->
     typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
     return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
 }
+#endif
+
+#endif  // RSL_MONAD_HPP_

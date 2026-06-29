@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_PARAMETER_VALIDATORS_HPP_
+#define RSL_PARAMETER_VALIDATORS_HPP_
 
 #include <rsl/algorithm.hpp>
 #include <rsl/export.hpp>
@@ -36,8 +37,8 @@ template <typename T>
 
 template <typename T, typename Fn>
 [[nodiscard]] auto size_compare(rclcpp::Parameter const& parameter, size_t const size,
-                                std::string const& predicate_description,
-                                Fn const& predicate) -> tl::expected<void, std::string> {
+                                std::string const& predicate_description, Fn const& predicate)
+    -> tl::expected<void, std::string> {
     static constexpr auto format_string = "Length of parameter '{}' is '{}' but must be {} '{}'";
     switch (parameter.get_type()) {
         case rclcpp::ParameterType::PARAMETER_STRING:
@@ -55,8 +56,8 @@ template <typename T, typename Fn>
 
 template <typename T, typename Fn>
 [[nodiscard]] auto compare(rclcpp::Parameter const& parameter, T const& value,
-                           std::string const& predicate_description,
-                           Fn const& predicate) -> tl::expected<void, std::string> {
+                           std::string const& predicate_description, Fn const& predicate)
+    -> tl::expected<void, std::string> {
     if (auto const param_value = parameter.get_value<T>(); !predicate(param_value, value))
         return tl::unexpected(fmt::format("Parameter '{}' with the value '{}' must be {} '{}'",
                                           parameter.get_name(), stringify(param_value),
@@ -182,8 +183,8 @@ template <typename T>
  * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
-[[nodiscard]] auto lower_element_bounds(rclcpp::Parameter const& parameter,
-                                        T const& lower) -> tl::expected<void, std::string> {
+[[nodiscard]] auto lower_element_bounds(rclcpp::Parameter const& parameter, T const& lower)
+    -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val < lower)
@@ -200,8 +201,8 @@ template <typename T>
  * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
-[[nodiscard]] auto upper_element_bounds(rclcpp::Parameter const& parameter,
-                                        T const& upper) -> tl::expected<void, std::string> {
+[[nodiscard]] auto upper_element_bounds(rclcpp::Parameter const& parameter, T const& upper)
+    -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<std::vector<T>>();
     for (auto val : param_value)
         if (val > upper)
@@ -218,8 +219,8 @@ template <typename T>
  * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
-[[nodiscard]] auto bounds(rclcpp::Parameter const& parameter, T const& lower,
-                          T const& upper) -> tl::expected<void, std::string> {
+[[nodiscard]] auto bounds(rclcpp::Parameter const& parameter, T const& lower, T const& upper)
+    -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<T>();
     if (param_value < lower || param_value > upper)
         return tl::unexpected(
@@ -304,8 +305,8 @@ template <typename T>
  * @return Help string if the parameter is invalid, otherwise void
  */
 template <typename T>
-[[nodiscard]] auto one_of(rclcpp::Parameter const& parameter,
-                          std::vector<T> const& collection) -> tl::expected<void, std::string> {
+[[nodiscard]] auto one_of(rclcpp::Parameter const& parameter, std::vector<T> const& collection)
+    -> tl::expected<void, std::string> {
     auto const& param_value = parameter.get_value<T>();
     if (contains(collection, param_value)) return {};
     return tl::unexpected(fmt::format(
@@ -320,3 +321,5 @@ template <typename T>
     -> rcl_interfaces::msg::SetParametersResult;
 
 }  // namespace rsl
+
+#endif  // RSL_PARAMETER_VALIDATORS_HPP_

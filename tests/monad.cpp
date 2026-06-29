@@ -5,7 +5,10 @@
 #include <range/v3/all.hpp>
 
 #include <cmath>
+#include <locale>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 using namespace std::string_literals;
 
@@ -34,6 +37,22 @@ Result<double> multiply(double x, double y) { return x * y; }
 Result<double> divide_3(double x) { return divide(3, x); }
 
 Result<double> multiply_3(double x) { return multiply(3, x); }
+
+template <typename Lhs, typename Rhs, typename = void>
+constexpr bool has_pipe_v = false;
+
+template <typename Lhs, typename Rhs>
+constexpr bool
+    has_pipe_v<Lhs, Rhs, std::void_t<decltype(std::declval<Lhs>() | std::declval<Rhs>())>> = true;
+
+constexpr auto plus_one = [](int x) { return x + 1; };
+
+static_assert(has_pipe_v<Result<double>, decltype(+divide_3)>);
+static_assert(std::is_same_v<decltype(std::declval<Result<double>>() | divide_3), Result<double>>);
+static_assert(has_pipe_v<int, decltype(plus_one)>);
+static_assert(std::is_same_v<decltype(std::declval<int>() | plus_one), int>);
+static_assert(std::is_convertible_v<decltype(std::ctype_base::alpha | std::ctype_base::digit),
+                                    std::ctype_base::mask>);
 }  // namespace
 
 TEST_CASE("rsl::mbind") {
@@ -227,6 +246,32 @@ TEST_CASE("operator|") {
         auto val = 1.0 / ranges::accumulate(r_inv, 0.0);
         CHECK(val == Catch::Approx(4.61538));
     }
+}
+
+TEST_CASE("operator| expected overload selection") {
+    auto const input = Result<double>{5.0};
+
+    auto const result = input | divide_3;
+
+    REQUIRE(rsl::has_value(result));
+    CHECK(result.value() == Catch::Approx(3.0 / 5.0));
+}
+
+TEST_CASE("operator| expected chaining") {
+    auto const input = Result<double>{5.0};
+
+    auto const result = input | divide_3 | multiply_3;
+
+    REQUIRE(rsl::has_value(result));
+    CHECK(result.value() == Catch::Approx(3.0 * (3.0 / 5.0)));
+}
+
+TEST_CASE("operator| does not hijack ctype bitmask") {
+    auto const mask = std::ctype_base::alpha | std::ctype_base::digit | std::ctype_base::punct;
+
+    CHECK((mask & std::ctype_base::alpha) != 0);
+    CHECK((mask & std::ctype_base::digit) != 0);
+    CHECK((mask & std::ctype_base::punct) != 0);
 }
 
 TEST_CASE("rsl::maybe_error") {

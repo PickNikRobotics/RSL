@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_OVERLOAD_HPP_
+#define RSL_OVERLOAD_HPP_
 
 namespace rsl {
 
@@ -18,3 +19,5 @@ template <class... Ts>
 Overload(Ts...) -> Overload<Ts...>;
 
 }  // namespace rsl
+
+#endif  // RSL_OVERLOAD_HPP_

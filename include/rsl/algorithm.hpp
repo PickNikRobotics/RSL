@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_ALGORITHM_HPP_
+#define RSL_ALGORITHM_HPP_
 
 #include <algorithm>
 
@@ -40,3 +41,5 @@ template <typename Collection>
 }
 
 }  // namespace rsl
+
+#endif  // RSL_ALGORITHM_HPP_
