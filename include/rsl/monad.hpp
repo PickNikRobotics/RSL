@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_MONAD_HPP
+#define RSL_MONAD_HPP
 
 #include <tl/expected.hpp>
 
@@ -165,6 +166,7 @@ constexpr inline bool is_optional = is_optional_impl<std::remove_cv_t<std::remov
  *
  * @return Return type of f
  */
+// NOLINTBEGIN(modernize-use-constraints): RSL is documented as a C++17 library.
 template <typename T, typename Fn, typename = std::enable_if_t<rsl::is_optional<T>>,
           typename = std::enable_if_t<std::is_invocable_v<
               Fn, typename std::remove_cv_t<std::remove_reference_t<T>>::value_type>>>
@@ -205,3 +207,6 @@ template <typename T, typename Fn, typename = std::enable_if_t<!rsl::is_optional
     typename std::enable_if_t<std::is_invocable_v<Fn, T>, std::invoke_result_t<Fn, T>> {
     return std::invoke(std::forward<Fn>(fn), std::forward<T>(val));
 }
+// NOLINTEND(modernize-use-constraints)
+
+#endif  // RSL_MONAD_HPP

@@ -89,7 +89,7 @@ TEST_CASE("rsl::Queue") {
             for (auto& producer : producers) producer.join();
             for (auto& consumer : consumers) consumer.join();
 
-            CHECK(queue.size() == thread_count * item_count - items_removed);
+            CHECK(queue.size() == (thread_count * item_count) - items_removed);
         }
     }
 }
