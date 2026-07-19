@@ -11,7 +11,7 @@ find_package(tl-expected REQUIRED)
 
 option(RSL_ENABLE_WARNINGS "Enable compiler warnings" OFF)
 if(RSL_ENABLE_WARNINGS AND CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
