@@ -20,7 +20,7 @@ jobs:
     container: ghcr.io/picknikrobotics/rsl:upstream-rolling
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Source ROS
