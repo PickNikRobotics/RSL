@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_STRONG_TYPE_HPP_
+#define RSL_STRONG_TYPE_HPP_
 
 #include <utility>
 
@@ -39,3 +40,5 @@ class StrongType {
 };
 
 }  // namespace rsl
+
+#endif  // RSL_STRONG_TYPE_HPP_

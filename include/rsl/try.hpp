@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_TRY_HPP_
+#define RSL_TRY_HPP_
 
 #include <tl/expected.hpp>
 
@@ -33,3 +34,5 @@
         if (!_expected.has_value()) return tl::unexpected(_expected.error());      \
         _expected.value();                                                         \
     })
+
+#endif  // RSL_TRY_HPP_

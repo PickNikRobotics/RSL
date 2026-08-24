@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RSL_PARAMETER_VALIDATORS_HPP_
+#define RSL_PARAMETER_VALIDATORS_HPP_
 
 #include <rsl/algorithm.hpp>
 #include <rsl/export.hpp>
@@ -320,3 +321,5 @@ template <typename T>
     -> rcl_interfaces::msg::SetParametersResult;
 
 }  // namespace rsl
+
+#endif  // RSL_PARAMETER_VALIDATORS_HPP_
