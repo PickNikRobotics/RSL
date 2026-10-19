@@ -56,7 +56,8 @@ jobs:
         run: |
           sudo apt update
           rosdep update
-          rosdep install --from-paths . --ignore-src -r -y
+          rosdep install --from-paths . --ignore-src -r -y \
+            -t build -t buildtool -t build_export -t buildtool_export -t exec -t test -t doc
       - name: Install Clang
         if: matrix.compiler.name == 'Clang'
         run: sudo apt update && sudo apt install clang
