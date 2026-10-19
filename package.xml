@@ -12,15 +12,15 @@
   <maintainer email="shaurya.kumar@picknik.ai">Shaurya Kumar</maintainer>
   <license>BSD-3-Clause</license>
 
-  <buildtool_depend>doxygen</buildtool_depend>
+  <doc_depend>doxygen</doc_depend>
 
   <depend>eigen</depend>
   <depend>fmt</depend>
+  <depend>rcl_interfaces</depend>
   <depend>rclcpp</depend>
   <depend>tcb_span</depend>
   <depend>libexpected-dev</depend>
 
-  <test_depend>ament_cmake_ros</test_depend>
   <test_depend>clang-tidy</test_depend>
   <test_depend>git</test_depend>
   <test_depend>range-v3</test_depend>
