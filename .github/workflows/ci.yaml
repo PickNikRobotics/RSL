@@ -73,7 +73,12 @@ jobs:
         run: cmake --build build/${{ matrix.preset }} --target tidy
       - name: Generate LCOV report
         if: ${{ matrix.preset == 'codecov' }}
-        run: lcov -c -d . -o coverage.info --no-external --exclude "*/build/**" --ignore-errors mismatch,inconsistent
+        run: |
+          lcov --capture --directory build/codecov \
+            --output-file coverage.info \
+            --no-external \
+            --exclude '*/build/*' \
+            --exclude "$GITHUB_WORKSPACE/tests/*"
       - uses: codecov/codecov-action@v7
         if: ${{ matrix.preset == 'codecov' }}
         with:
