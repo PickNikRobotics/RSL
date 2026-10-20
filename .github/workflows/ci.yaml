@@ -74,10 +74,10 @@ jobs:
       - name: Generate LCOV report
         if: ${{ matrix.preset == 'codecov' }}
         run: |
-          lcov --capture --directory build/codecov \
+          lcov --capture --directory . \
             --output-file coverage.info \
             --no-external \
-            --exclude '*/build/*' \
+            --exclude "$GITHUB_WORKSPACE/build/*" \
             --exclude "$GITHUB_WORKSPACE/tests/*"
       - uses: codecov/codecov-action@v7
         if: ${{ matrix.preset == 'codecov' }}
